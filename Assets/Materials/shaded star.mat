@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: shaded star
+  m_Shader: {fileID: -6465566751694194690, guid: 0bee2743b05a1134e90e6c51cb6d8cbe, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - Vector1_1a74b8f9332e47be88ef719338028b82: 30
+    - Vector1_df54e2952c8f4926b00a1638e6c56ed2: 1
+    m_Colors:
+    - Color_0659f5d50b6a426a95b59a2882848a2e: {r: 0.8490566, g: 0.3502091, b: 0.1153435, a: 0}
+    - Color_d6268e2d03d84e3dba9afc1d042be3f4: {r: 0.981132, g: 0.8204328, b: 0.2258455, a: 0}
+  m_BuildTextureStacks: []
