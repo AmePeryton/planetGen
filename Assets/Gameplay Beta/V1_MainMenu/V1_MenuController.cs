@@ -1,3 +1,4 @@
+using SFB;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ public class V1_MenuController : MonoBehaviour, ISavableData
 	public GameObject newSavePanel;
 	public TextMeshProUGUI directoryNameText;
 	public TextMeshProUGUI saveName;
+	public string saveFileDirectory;
 
 	void Start()
 	{
@@ -74,7 +76,8 @@ public class V1_MenuController : MonoBehaviour, ISavableData
 
 	public void SelectDirectory()
 	{
-
+		saveFileDirectory = StandaloneFileBrowser.OpenFolderPanel("Select Directory", "", false)[0];
+		directoryNameText.text = saveFileDirectory;
 	}
 
 	public void LoadData(V1_SaveData data)

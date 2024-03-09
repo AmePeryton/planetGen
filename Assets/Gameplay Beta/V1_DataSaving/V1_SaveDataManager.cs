@@ -7,7 +7,7 @@ using System;
 public class V1_SaveDataManager : MonoBehaviour
 {
 	[Header("File Storage Config")]
-	[SerializeField] private string fileName;
+	public string fileName;
 	private V1_FileDataHandler dataHandler;
 
 	public static V1_SaveDataManager instance { get; private set; }
@@ -26,7 +26,7 @@ public class V1_SaveDataManager : MonoBehaviour
 	private void Start()
 	{
 		DontDestroyOnLoad(gameObject);
-		this.dataHandler = new V1_FileDataHandler(Application.persistentDataPath, fileName);
+		this.dataHandler = new V1_FileDataHandler("C:\\Users\\ameli\\Desktop\\", fileName);
 		this.savableObjects = FindAllSavableObjects();
 	}
 
@@ -59,7 +59,6 @@ public class V1_SaveDataManager : MonoBehaviour
 	[ContextMenu("SaveGame")]
 	public void SaveGame()
 	{
-		//data.dateCreated = DateTime.Now.ToString("yyyy-MM-dd");
 		data.dateModified = DateTime.Now.ToString("yyyy-MM-dd");
 		this.savableObjects = FindAllSavableObjects();
 		foreach (ISavableData savedObject in savableObjects)
