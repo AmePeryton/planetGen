@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class V1_LevelManagerMenu : MonoBehaviour, ISavableData
+public class V1_LevelManagerMenu : MonoBehaviour, IGameSavableData
 {
 	public static V1_LevelManagerMenu instance { get; private set; }
 	private void Awake()
@@ -24,12 +24,12 @@ public class V1_LevelManagerMenu : MonoBehaviour, ISavableData
 		
 	}
 
-	public void LoadData(V1_SaveData data)
+	public void LoadData(V1_GameSaveData data)
 	{
 		throw new System.NotImplementedException();
 	}
 
-	public void SaveData(ref V1_SaveData data)
+	public void SaveData(ref V1_GameSaveData data)
 	{
 		data.name = "";
 	}

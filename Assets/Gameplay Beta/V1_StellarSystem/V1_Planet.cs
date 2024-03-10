@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class V1_Planet : MonoBehaviour, ISavableData
+public class V1_Planet : MonoBehaviour, IGameSavableData
 {
 	public float mass;
 	public float radius;
@@ -22,7 +22,7 @@ public class V1_Planet : MonoBehaviour, ISavableData
 	{
 	}
 
-	public void LoadData(V1_SaveData data)
+	public void LoadData(V1_GameSaveData data)
 	{
 		Debug.Log("planet data loaded!");
 		mass = data.planetData.mass;
@@ -30,7 +30,7 @@ public class V1_Planet : MonoBehaviour, ISavableData
 		distance = data.planetData.distance;
 	}
 
-	public void SaveData(ref V1_SaveData data)
+	public void SaveData(ref V1_GameSaveData data)
 	{
 		data.planetData.mass = mass;
 		data.planetData.radius = radius;

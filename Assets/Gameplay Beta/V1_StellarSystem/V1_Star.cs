@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class V1_Star : MonoBehaviour, ISavableData
+public class V1_Star : MonoBehaviour, IGameSavableData
 {
 	public float mass;
 	public float age;
@@ -19,14 +19,14 @@ public class V1_Star : MonoBehaviour, ISavableData
 	{
 	}
 
-	public void LoadData(V1_SaveData data)
+	public void LoadData(V1_GameSaveData data)
 	{
 		Debug.Log("star data loaded!");
 		mass = data.starData.mass;
 		age = data.starData.age;
 	}
 
-	public void SaveData(ref V1_SaveData data)
+	public void SaveData(ref V1_GameSaveData data)
 	{
 		data.starData.mass = mass;
 		data.starData.age = age;

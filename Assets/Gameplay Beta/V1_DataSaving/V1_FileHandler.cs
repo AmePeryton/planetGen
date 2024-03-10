@@ -4,25 +4,15 @@ using UnityEngine;
 using System;
 using System.IO;
 
-// File handler from youtube tutorial, only handles SaveData classes and has some annoying quirks, now obselete
-[Obsolete]
-// Replaced by V1_FileHandler
-public class V1_FileDataHandler
+// Reads from and writes to JSON files, converting to or from a C# class
+public class V1_FileHandler
 {
-	public string dataDirPath = "";
-	public string dataFileName = "";
-
-	public V1_FileDataHandler(string dataDirPath, string dataFileName)
-	{
-		this.dataDirPath = dataDirPath;
-		this.dataFileName = dataFileName;
-	}
-
-	public V1_GameSaveData Load()
+	// Retrieve and deserialize JSON data to C# class data of type <T>
+	public static T Load<T>(string path, string fileName, string extension = "json")
 	{
 		// Get full path
-		string fullPath = Path.Combine(dataDirPath, dataFileName);
-		V1_GameSaveData loadedData = null;
+		string fullPath = Path.Combine(path, fileName + "." + extension);
+		T loadedData = default;
 
 		if (File.Exists(fullPath))
 		{
@@ -38,8 +28,8 @@ public class V1_FileDataHandler
 					}
 				}
 
-				// Deserialize JSON formatted string to C# data
-				loadedData = JsonUtility.FromJson<V1_GameSaveData>(dataToLoad);
+				// Deserialize JSON formatted string to C# data of type <T>
+				loadedData = JsonUtility.FromJson<T>(dataToLoad);
 			}
 			catch (Exception e)
 			{
@@ -51,17 +41,18 @@ public class V1_FileDataHandler
 		return loadedData;
 	}
 
-	public void Save(V1_GameSaveData data)
+	// Serialize C# data of type <T> and write JSON formatted string to file
+	public static void Save<T>(T data, string path, string fileName, string extension = "json")
 	{
 		// Get full path
-		string fullPath = Path.Combine(dataDirPath, dataFileName);
+		string fullPath = Path.Combine(path, fileName + "." + extension);
 
 		try
 		{
 			// Create directory
 			Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
 
-			// Serialize C# data to JSON
+			// Serialize C# data of type <T> to JSON
 			string dataToStore = JsonUtility.ToJson(data, true);
 
 			// Write JSON formatted string to file

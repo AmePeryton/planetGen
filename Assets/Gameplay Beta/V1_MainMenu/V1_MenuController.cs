@@ -5,9 +5,10 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 // Controller for all menu panels in the the Main Menu scene
-public class V1_MenuController : MonoBehaviour, ISavableData
+public class V1_MenuController : MonoBehaviour, IGameSavableData, ISettingsSavable
 {
 	public GameObject mainPanel;
 	public GameObject playPanel;
@@ -16,10 +17,26 @@ public class V1_MenuController : MonoBehaviour, ISavableData
 	public TextMeshProUGUI directoryNameText;
 	public TextMeshProUGUI saveName;
 	public string saveFileDirectory;
+	public float volume;
+	public Slider volumeSlider;
+
+	public V1_GameSaveDataManager gameSaveDataManager;
+	public V1_SettingsManager settingsManager;
+
+	private void Awake()
+	{
+		gameSaveDataManager = FindObjectOfType<V1_GameSaveDataManager>();
+		settingsManager = FindObjectOfType<V1_SettingsManager>();
+		// if settings file exists, load it
+		// of not, create a new one with default settings
+	}
 
 	void Start()
 	{
 		OpenMainPanel();
+		volumeSlider.onValueChanged.AddListener((v) => {
+			volume = v;
+		});
 	}
 
 	// Switch Panels
@@ -80,11 +97,11 @@ public class V1_MenuController : MonoBehaviour, ISavableData
 		directoryNameText.text = saveFileDirectory;
 	}
 
-	public void LoadData(V1_SaveData data)
+	public void LoadData(V1_GameSaveData data)
 	{
 	}
 
-	public void SaveData(ref V1_SaveData data)
+	public void SaveData(ref V1_GameSaveData data)
 	{
 		if (saveName.text.Length > 0)
 		{
@@ -95,5 +112,16 @@ public class V1_MenuController : MonoBehaviour, ISavableData
 			data.name = "save";
 		}
 		data.dateCreated = DateTime.Now.ToString("yyyy-MM-dd");
+	}
+
+	public void LoadData(V1_SettingsData data)
+	{
+		volume = data.volume;
+		volumeSlider.value = volume;
+	}
+
+	public void SaveData(ref V1_SettingsData data)
+	{
+		data.volume = volume;
 	}
 }

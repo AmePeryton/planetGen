@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class V1_SaveData
+public class V1_GameSaveData
 {
 	// Standard Data
 	public string name;
@@ -24,7 +24,7 @@ public class V1_SaveData
 		Gameplay			// Game saved during open world gameplay
 	}
 
-	public V1_SaveData()
+	public V1_GameSaveData()
 	{
 		name = "DEFAULT NAME";
 		dateCreated = "1970-01-01";
@@ -34,6 +34,7 @@ public class V1_SaveData
 		planetData = new PlanetData();
 	}
 }
+
 [System.Serializable]
 public class StarData
 {
