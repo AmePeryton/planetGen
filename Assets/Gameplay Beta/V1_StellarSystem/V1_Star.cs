@@ -12,7 +12,7 @@ public class V1_Star : MonoBehaviour, IGameSavableData
 	{
 		mass = Random.value;
 		age = Random.value;
-		sphere.transform.localScale = Mathf.Pow(mass, 0.74f) * Vector3.one;
+		VisualUpdate();
 	}
 
 	void Start()
@@ -21,13 +21,20 @@ public class V1_Star : MonoBehaviour, IGameSavableData
 
 	void Update()
 	{
+		VisualUpdate();
+		// NOTE: OK for early development, but later the constant refreshing will cause low fps
+	}
+
+	private void VisualUpdate()
+	{
+		sphere.transform.localScale = Mathf.Pow(mass, 0.74f) * Vector3.one;
 	}
 
 	public void LoadData(V1_GameSaveData data)
 	{
-		Debug.Log("star data loaded!");
 		mass = data.starData.mass;
 		age = data.starData.age;
+		VisualUpdate();
 	}
 
 	public void SaveData(ref V1_GameSaveData data)

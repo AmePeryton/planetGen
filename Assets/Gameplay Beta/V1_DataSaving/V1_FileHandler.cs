@@ -11,7 +11,7 @@ public class V1_FileHandler
 	public static T Load<T>(string path, string fileName, string extension = "json")
 	{
 		// Get full path
-		string fullPath = Path.Combine(path, fileName + "." + extension);
+		string fullPath = path + "/" + fileName + "." + extension;
 		T loadedData = default;
 
 		if (File.Exists(fullPath))
@@ -36,6 +36,10 @@ public class V1_FileHandler
 				Debug.LogError("Error occured when trying to load data from file: " + fullPath + "\n" + e);
 			}
 		}
+		else
+		{
+			Debug.LogError("File could not be found at " + fullPath);
+		}
 
 		Debug.Log("Data loaded from file " + fullPath);
 		return loadedData;
@@ -45,7 +49,7 @@ public class V1_FileHandler
 	public static void Save<T>(T data, string path, string fileName, string extension = "json")
 	{
 		// Get full path
-		string fullPath = Path.Combine(path, fileName + "." + extension);
+		string fullPath = path + "/" + fileName + "." + extension;
 
 		try
 		{

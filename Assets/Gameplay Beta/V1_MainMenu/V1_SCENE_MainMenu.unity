@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &18409790
 RectTransform:
   m_ObjectHideFlags: 0
@@ -354,8 +354,8 @@ RectTransform:
   m_Father: {fileID: 1883797469}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 40, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2455,7 +2455,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &793169851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3497,7 +3497,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4190,12 +4190,10 @@ MonoBehaviour:
   settingsPanel: {fileID: 18409789}
   newSavePanel: {fileID: 793169850}
   directoryNameText: {fileID: 130288002}
-  saveName: {fileID: 758189367}
+  saveNameInput: {fileID: 1586895451}
   saveFileDirectory: 
   volume: 1
   volumeSlider: {fileID: 1618034560}
-  gameSaveDataManager: {fileID: 0}
-  settingsManager: {fileID: 0}
 --- !u!1 &1551230845
 GameObject:
   m_ObjectHideFlags: 0

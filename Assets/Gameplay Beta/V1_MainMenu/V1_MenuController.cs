@@ -15,7 +15,7 @@ public class V1_MenuController : MonoBehaviour, IGameSavableData, ISettingsSavab
 	public GameObject settingsPanel;
 	public GameObject newSavePanel;
 	public TextMeshProUGUI directoryNameText;
-	public TextMeshProUGUI saveName;
+	public TMP_InputField saveNameInput;
 	public string saveFileDirectory;
 	public float volume;
 	public Slider volumeSlider;
@@ -102,9 +102,9 @@ public class V1_MenuController : MonoBehaviour, IGameSavableData, ISettingsSavab
 
 	public void SaveData(ref V1_GameSaveData data)
 	{
-		if (saveName.text.Length > 0)
+		if (saveNameInput.text.Length > 0)
 		{
-			data.name = saveName.text;
+			data.name = saveNameInput.text;
 		}
 		else
 		{

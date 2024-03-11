@@ -14,8 +14,7 @@ public class V1_Planet : MonoBehaviour, IGameSavableData
 		mass = Random.value;
 		radius = Random.value;
 		distance = 10f * Random.value;
-		transform.localPosition = new Vector3(0, 0, distance);
-		sphere.transform.localScale = radius * Vector3.one;
+		VisualUpdate();
 	}
 
 	void Start()
@@ -24,14 +23,22 @@ public class V1_Planet : MonoBehaviour, IGameSavableData
 
 	void Update()
 	{
+		VisualUpdate();
+		// NOTE: OK for early development, but later the constant refreshing will cause low fps
+	}
+
+	private void VisualUpdate()
+	{
+		transform.localPosition = new Vector3(0, 0, distance);
+		sphere.transform.localScale = radius * Vector3.one;
 	}
 
 	public void LoadData(V1_GameSaveData data)
 	{
-		Debug.Log("planet data loaded!");
 		mass = data.planetData.mass;
 		radius = data.planetData.radius;
 		distance = data.planetData.distance;
+		VisualUpdate();
 	}
 
 	public void SaveData(ref V1_GameSaveData data)
