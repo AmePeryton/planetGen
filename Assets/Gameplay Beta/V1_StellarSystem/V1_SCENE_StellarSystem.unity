@@ -130,6 +130,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2164309694802049453, guid: 59f9ce91c14c9814a833ad996548784e, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6825400675534322324, guid: 59f9ce91c14c9814a833ad996548784e, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -177,6 +181,10 @@ PrefabInstance:
     - target: {fileID: 8167054774830449395, guid: 59f9ce91c14c9814a833ad996548784e, type: 3}
       propertyPath: m_Name
       value: V1_StellarSystem
+      objectReference: {fileID: 0}
+    - target: {fileID: 8167054774830449395, guid: 59f9ce91c14c9814a833ad996548784e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59f9ce91c14c9814a833ad996548784e, type: 3}

@@ -1,0 +1,15 @@
+{
+    "name": "real​",
+    "dateCreated": "2024-03-10",
+    "dateModified": "2024-03-10",
+    "gameState": 0,
+    "starData": {
+        "mass": 0.0,
+        "age": 0.0
+    },
+    "planetData": {
+        "mass": 0.0,
+        "radius": 0.0,
+        "distance": 0.0
+    }
+}

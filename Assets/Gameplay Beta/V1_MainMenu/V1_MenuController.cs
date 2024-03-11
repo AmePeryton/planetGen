@@ -20,13 +20,13 @@ public class V1_MenuController : MonoBehaviour, IGameSavableData, ISettingsSavab
 	public float volume;
 	public Slider volumeSlider;
 
-	public V1_GameSaveDataManager gameSaveDataManager;
-	public V1_SettingsManager settingsManager;
+	//public V1_GameSaveDataManager gameSaveDataManager;
+	//public V1_SettingsManager settingsManager;
 
 	private void Awake()
 	{
-		gameSaveDataManager = FindObjectOfType<V1_GameSaveDataManager>();
-		settingsManager = FindObjectOfType<V1_SettingsManager>();
+		//gameSaveDataManager = FindObjectOfType<V1_GameSaveDataManager>();
+		//settingsManager = FindObjectOfType<V1_SettingsManager>();
 		OpenMainPanel();
 		volumeSlider.onValueChanged.AddListener((v) => {
 			volume = v;
@@ -86,6 +86,7 @@ public class V1_MenuController : MonoBehaviour, IGameSavableData, ISettingsSavab
 	{
 		// CREATE NEW DEFAULT SAVEFILE
 		// GO TO STELLAR LEVEL
+		V1_GameSaveDataManager.instance.SaveGame();
 		SceneManager.LoadScene("V1_SCENE_StellarSystem", LoadSceneMode.Single);
 	}
 
