@@ -1,5 +1,5 @@
 public interface ISettingsSavable
 {
-	void LoadData(V1_SettingsData data);
-	void SaveData(ref V1_SettingsData data);
+	void LoadSettingsData(V1_SettingsData data);
+	void SaveSettingsData(ref V1_SettingsData data);
 }

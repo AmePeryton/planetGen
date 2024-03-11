@@ -51,7 +51,7 @@ public class V1_SettingsManager : MonoBehaviour
 
 		foreach (ISettingsSavable savedObject in savableObjects)
 		{
-			savedObject.LoadData(settingsData);
+			savedObject.LoadSettingsData(settingsData);
 		}
 	}
 
@@ -61,7 +61,7 @@ public class V1_SettingsManager : MonoBehaviour
 		this.savableObjects = FindAllSettingsSavableObjects();
 		foreach (ISettingsSavable savedObject in savableObjects)
 		{
-			savedObject.SaveData(ref settingsData);
+			savedObject.SaveSettingsData(ref settingsData);
 		}
 
 		V1_FileHandler.Save(settingsData, Application.dataPath + "/Gameplay Beta/V1_GameFiles", "settings", "cfg");

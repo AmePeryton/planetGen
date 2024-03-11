@@ -46,7 +46,7 @@ public class V1_GameSaveDataManager : MonoBehaviour
 
 		foreach (IGameSavableData savedObject in savableObjects)
 		{
-			savedObject.LoadData(saveData);
+			savedObject.LoadGameSaveData(saveData);
 		}
 	}
 
@@ -56,7 +56,7 @@ public class V1_GameSaveDataManager : MonoBehaviour
 		this.savableObjects = FindAllGameSavableObjects();
 		foreach (IGameSavableData savedObject in savableObjects)
 		{
-			savedObject.SaveData(ref saveData);
+			savedObject.SaveGameSaveData(ref saveData);
 		}
 		saveData.dateModified = DateTime.Now.ToString("yyyy-MM-dd");
 

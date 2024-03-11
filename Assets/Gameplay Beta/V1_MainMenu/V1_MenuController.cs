@@ -96,11 +96,11 @@ public class V1_MenuController : MonoBehaviour, IGameSavableData, ISettingsSavab
 		directoryNameText.text = saveFileDirectory;
 	}
 
-	public void LoadData(V1_GameSaveData data)
+	public void LoadGameSaveData(V1_GameSaveData data)
 	{
 	}
 
-	public void SaveData(ref V1_GameSaveData data)
+	public void SaveGameSaveData(ref V1_GameSaveData data)
 	{
 		if (saveNameInput.text.Length > 0)
 		{
@@ -113,13 +113,13 @@ public class V1_MenuController : MonoBehaviour, IGameSavableData, ISettingsSavab
 		data.dateCreated = DateTime.Now.ToString("yyyy-MM-dd");
 	}
 
-	public void LoadData(V1_SettingsData data)
+	public void LoadSettingsData(V1_SettingsData data)
 	{
 		volume = data.volume;
 		volumeSlider.value = volume;
 	}
 
-	public void SaveData(ref V1_SettingsData data)
+	public void SaveSettingsData(ref V1_SettingsData data)
 	{
 		data.volume = volume;
 	}

@@ -13,7 +13,7 @@ public class V1_Planet : MonoBehaviour, IGameSavableData
 	{
 		mass = Random.value;
 		radius = Random.value;
-		distance = 10f * Random.value;
+		distance = 5f * Random.value;
 		VisualUpdate();
 	}
 
@@ -33,7 +33,7 @@ public class V1_Planet : MonoBehaviour, IGameSavableData
 		sphere.transform.localScale = radius * Vector3.one;
 	}
 
-	public void LoadData(V1_GameSaveData data)
+	public void LoadGameSaveData(V1_GameSaveData data)
 	{
 		mass = data.planetData.mass;
 		radius = data.planetData.radius;
@@ -41,7 +41,7 @@ public class V1_Planet : MonoBehaviour, IGameSavableData
 		VisualUpdate();
 	}
 
-	public void SaveData(ref V1_GameSaveData data)
+	public void SaveGameSaveData(ref V1_GameSaveData data)
 	{
 		data.planetData.mass = mass;
 		data.planetData.radius = radius;

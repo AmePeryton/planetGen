@@ -30,14 +30,14 @@ public class V1_Star : MonoBehaviour, IGameSavableData
 		sphere.transform.localScale = Mathf.Pow(mass, 0.74f) * Vector3.one;
 	}
 
-	public void LoadData(V1_GameSaveData data)
+	public void LoadGameSaveData(V1_GameSaveData data)
 	{
 		mass = data.starData.mass;
 		age = data.starData.age;
 		VisualUpdate();
 	}
 
-	public void SaveData(ref V1_GameSaveData data)
+	public void SaveGameSaveData(ref V1_GameSaveData data)
 	{
 		data.starData.mass = mass;
 		data.starData.age = age;
