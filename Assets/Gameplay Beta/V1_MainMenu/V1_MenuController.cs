@@ -27,16 +27,14 @@ public class V1_MenuController : MonoBehaviour, IGameSavableData, ISettingsSavab
 	{
 		gameSaveDataManager = FindObjectOfType<V1_GameSaveDataManager>();
 		settingsManager = FindObjectOfType<V1_SettingsManager>();
-		// if settings file exists, load it
-		// of not, create a new one with default settings
-	}
-
-	void Start()
-	{
 		OpenMainPanel();
 		volumeSlider.onValueChanged.AddListener((v) => {
 			volume = v;
 		});
+	}
+
+	void Start()
+	{
 	}
 
 	// Switch Panels

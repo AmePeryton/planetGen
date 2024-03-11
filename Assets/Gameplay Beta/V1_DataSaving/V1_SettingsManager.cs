@@ -15,13 +15,27 @@ public class V1_SettingsManager : MonoBehaviour
 
 	private void Awake()
 	{
+		DontDestroyOnLoad(gameObject);
 		if (instance != null)
 		{
 			Debug.LogError("V1_SettingsManager already present in scene!");
 		}
 		instance = this;
-		DontDestroyOnLoad(gameObject);
 		LoadSettings();
+	}
+
+	void Start()
+	{
+	}
+
+	void Update()
+	{
+	}
+
+	public void NewSettings()
+	{
+		settingsData = new V1_SettingsData();
+		SaveSettings();
 	}
 
 	[ContextMenu("LoadSettings")]
@@ -51,12 +65,6 @@ public class V1_SettingsManager : MonoBehaviour
 		}
 
 		V1_FileHandler.Save(settingsData, Application.dataPath + "/Gameplay Beta/V1_GameFiles", "settings", "cfg");
-	}
-
-	public void NewSettings()
-	{
-		settingsData = new V1_SettingsData();
-		SaveSettings();
 	}
 
 	private List<ISettingsSavable> FindAllSettingsSavableObjects()

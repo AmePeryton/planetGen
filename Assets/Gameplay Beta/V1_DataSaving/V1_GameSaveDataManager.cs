@@ -12,12 +12,20 @@ public class V1_GameSaveDataManager : MonoBehaviour
 
 	private void Awake()
 	{
+		DontDestroyOnLoad(gameObject);
 		if (instance != null)
 		{
 			Debug.LogError("V1_SaveDataManager already present in scene!");
 		}
 		instance = this;
-		DontDestroyOnLoad(gameObject);
+	}
+
+	void Start()
+	{
+	}
+
+	void Update()
+	{
 	}
 
 	public void NewGame()

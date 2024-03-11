@@ -7,10 +7,14 @@ public class V1_StellarSystem : MonoBehaviour
 	public GameObject starPrefab;
 	public GameObject planetPrefab;
 
-	void Start()
+	private void Awake()
 	{
 		Instantiate(starPrefab);
 		Instantiate(planetPrefab);
+	}
+
+	void Start()
+	{
 	}
 
 	void Update()

@@ -9,13 +9,17 @@ public class V1_Planet : MonoBehaviour, IGameSavableData
 	public float distance;
 	public GameObject sphere;
 
-	void Start()
+	private void Awake()
 	{
 		mass = Random.value;
 		radius = Random.value;
 		distance = 10f * Random.value;
 		transform.localPosition = new Vector3(0, 0, distance);
 		sphere.transform.localScale = radius * Vector3.one;
+	}
+
+	void Start()
+	{
 	}
 
 	void Update()

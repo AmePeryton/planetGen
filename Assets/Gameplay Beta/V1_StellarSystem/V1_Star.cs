@@ -8,11 +8,15 @@ public class V1_Star : MonoBehaviour, IGameSavableData
 	public float age;
 	public GameObject sphere;
 
-	void Start()
+	private void Awake()
 	{
 		mass = Random.value;
 		age = Random.value;
 		sphere.transform.localScale = Mathf.Pow(mass, 0.74f) * Vector3.one;
+	}
+
+	void Start()
+	{
 	}
 
 	void Update()
