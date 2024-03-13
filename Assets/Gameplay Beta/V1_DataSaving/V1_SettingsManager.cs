@@ -41,7 +41,7 @@ public class V1_SettingsManager : MonoBehaviour
 	[ContextMenu("LoadSettings")]
 	public void LoadSettings()
 	{
-		this.settingsData = V1_FileHandler.Load<V1_SettingsData>(Application.dataPath + "/Gameplay Beta/V1_GameFiles", "settings", "cfg");
+		this.settingsData = V1_FileHandler.Load<V1_SettingsData>(Application.dataPath + "/Gameplay Beta/V1_GameFiles/" + "settings" + ".cfg");
 		this.savableObjects = FindAllSettingsSavableObjects();
 		if (this.settingsData == null)
 		{
@@ -64,7 +64,7 @@ public class V1_SettingsManager : MonoBehaviour
 			savedObject.SaveSettingsData(ref settingsData);
 		}
 
-		V1_FileHandler.Save(settingsData, Application.dataPath + "/Gameplay Beta/V1_GameFiles", "settings", "cfg");
+		V1_FileHandler.Save(settingsData, Application.dataPath + "/Gameplay Beta/V1_GameFiles/" + "settings" + ".cfg");
 	}
 
 	private List<ISettingsSavable> FindAllSettingsSavableObjects()

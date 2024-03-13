@@ -33,10 +33,9 @@ public class V1_GameSaveDataManager : MonoBehaviour
 		this.saveData = new V1_GameSaveData();
 	}
 
-	[ContextMenu("LoadGame")]
-	public void LoadGame()
+	public void LoadGame(string saveName)
 	{
-		this.saveData = V1_FileHandler.Load<V1_GameSaveData>(Application.dataPath + "/Gameplay Beta/V1_GameFiles", saveData.name, "save");
+		this.saveData = V1_FileHandler.Load<V1_GameSaveData>(Application.dataPath + "/Gameplay Beta/V1_GameFiles/" + saveName + ".save");
 		this.savableObjects = FindAllGameSavableObjects();
 		if (this.saveData == null)
 		{
@@ -60,7 +59,7 @@ public class V1_GameSaveDataManager : MonoBehaviour
 		}
 		saveData.dateModified = DateTime.Now.ToString("yyyy-MM-dd");
 
-		V1_FileHandler.Save(saveData, Application.dataPath + "/Gameplay Beta/V1_GameFiles", saveData.name, "save");
+		V1_FileHandler.Save(saveData, Application.dataPath + "/Gameplay Beta/V1_GameFiles/" + saveData.name + ".save");
 	}
 
 	private List<IGameSavableData> FindAllGameSavableObjects()

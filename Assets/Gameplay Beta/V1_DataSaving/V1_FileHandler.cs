@@ -4,14 +4,15 @@ using UnityEngine;
 using System;
 using System.IO;
 
-// Reads from and writes to JSON files, converting to or from a C# class
+// Deals with file related functions, inclusind:
+	// Serialization / deserialization
+	// Creating / Deleting files
+	// Finding all relevant files in a directory
 public class V1_FileHandler
 {
 	// Retrieve and deserialize JSON data to C# class data of type <T>
-	public static T Load<T>(string path, string fileName, string extension = "json")
+	public static T Load<T>(string fullPath)
 	{
-		// Get full path
-		string fullPath = path + "/" + fileName + "." + extension;
 		T loadedData = default;
 
 		if (File.Exists(fullPath))
@@ -38,7 +39,7 @@ public class V1_FileHandler
 		}
 		else
 		{
-			Debug.LogError("File could not be found at " + fullPath);
+			Debug.LogError("[LOAD] File could not be found at " + fullPath);
 		}
 
 		Debug.Log("Data loaded from file " + fullPath);
@@ -46,11 +47,8 @@ public class V1_FileHandler
 	}
 
 	// Serialize C# data of type <T> and write JSON formatted string to file
-	public static void Save<T>(T data, string path, string fileName, string extension = "json")
+	public static void Save<T>(T data, string fullPath)
 	{
-		// Get full path
-		string fullPath = path + "/" + fileName + "." + extension;
-
 		try
 		{
 			// Create directory
@@ -73,5 +71,40 @@ public class V1_FileHandler
 			Debug.LogError("Error occured when trying to save data to file: " + fullPath + "\n" + e);
 		}
 		Debug.Log("Data saved to file " + fullPath);
+	}
+
+	// Delete a file from a given folder (intended to delete game save files)
+	public static void DeleteFile(string fullPath)
+	{
+		if (File.Exists(fullPath))
+		{
+			try
+			{
+				File.Delete(fullPath);
+			}
+			catch (Exception e)
+			{
+				Debug.LogError("Error occured when trying to delete file: " + fullPath + "\n" + e);
+			}
+		}
+		else
+		{
+			Debug.LogError("[DELETE] File could not be found at " + fullPath);
+		}
+
+		Debug.Log("File deleted: " + fullPath);
+	}
+
+	public static string[] FindAllFiles(string directory, string extension = "*")
+	{
+		List<string> paths = new List<string>();
+		DirectoryInfo info = new DirectoryInfo(directory);
+		FileInfo[] files = info.GetFiles("*." + extension);
+		foreach (FileInfo file in files)
+		{
+			paths.Add(file.FullName);
+			Debug.Log("FILE: " + file.FullName);
+		}
+		return paths.ToArray();
 	}
 }
