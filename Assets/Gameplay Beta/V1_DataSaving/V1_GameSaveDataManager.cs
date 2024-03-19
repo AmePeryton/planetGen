@@ -3,106 +3,101 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System;
+using UnityEngine.SceneManagement;
 
 public class V1_GameSaveDataManager : MonoBehaviour
 {
 	public static V1_GameSaveDataManager instance { get; private set; }
-	public List<IGameSavableData> savableObjects;
-	public V1_GameSaveData saveData;
+	public V1_GameSaveData genericSaveData;
+	public V1_SceneDataManager sdm;
+	public bool newGame;
 
 	private void Awake()
 	{
 		DontDestroyOnLoad(gameObject);
-		if (instance != null)
-		{
-			Debug.LogError("V1_SaveDataManager already present in scene!");
-		}
-		instance = this;
+		// Singleton line
+		if (instance != null) { Debug.LogError(GetType().Name + " already present in scene!"); } instance = this;
 	}
 
-	void Start()
+	public void NewGame(string name)
 	{
-	}
-
-	void Update()
-	{
-	}
-
-	public void NewGame()
-	{
-		this.saveData = new V1_GameSaveData();
+		genericSaveData = new V1_GameSaveData(name);
+		newGame = true;
+		SceneManager.LoadScene("V1_SCENE_StellarSystem", LoadSceneMode.Single);
 	}
 
 	public void LoadGame(string saveName)
 	{
-		this.saveData = V1_FileHandler.Load<V1_GameSaveData>(Application.dataPath + "/Gameplay Beta/V1_GameFiles/" + saveName + ".save");
-		this.savableObjects = FindAllGameSavableObjects();
-		if (this.saveData == null)
-		{
-			Debug.Log("Load data defaulted");
-			NewGame();
-		}
+		newGame = false;
+		genericSaveData = V1_FileHandler.Load<V1_GameSaveData>(Application.dataPath + "/Gameplay Beta/V1_GameFiles/" + saveName + ".save");
 
-		foreach (IGameSavableData savedObject in savableObjects)
+		switch (genericSaveData.gameState)
 		{
-			savedObject.LoadGameSaveData(saveData);
+			case GameState.MainMenu:
+				SceneManager.LoadScene("V1_SCENE_MainMenu", LoadSceneMode.Single);
+				break;
+			case GameState.StellarSystem:
+				SceneManager.LoadScene("V1_SCENE_StellarSystem", LoadSceneMode.Single);
+				break;
+			case GameState.LCASelection:
+				SceneManager.LoadScene("V1_SCENE_LCASelection", LoadSceneMode.Single);
+				break;
+			case GameState.CreatureCreator:
+				SceneManager.LoadScene("V1_SCENE_CreatureCreator", LoadSceneMode.Single);
+				break;
+			case GameState.Gameplay:
+				SceneManager.LoadScene("V1_SCENE_Gameplay", LoadSceneMode.Single);
+				break;
+			default:
+				break;
 		}
 	}
 
-	[ContextMenu("SaveGame")]
-	public void SaveGame()
-	{
-		this.savableObjects = FindAllGameSavableObjects();
-		foreach (IGameSavableData savedObject in savableObjects)
-		{
-			savedObject.SaveGameSaveData(ref saveData);
-		}
-		saveData.dateModified = DateTime.Now.ToString("yyyy-MM-dd");
+	//[ContextMenu("SaveGame")]
+	//public void SaveGame()
+	//{
+	//	if (this.genericSaveData == null || this.sceneManager == null)
+	//	{
+	//		Debug.Log("NO DATA or NO MANAGER");
+	//		return;
+	//	}
 
-		V1_FileHandler.Save(saveData, Application.dataPath + "/Gameplay Beta/V1_GameFiles/" + saveData.name + ".save");
-	}
+	//	genericSaveData = sceneManager.saveData;
+	//	genericSaveData.dateModified = DateTime.Now.ToString("yyyy-MM-dd");
 
-	private List<IGameSavableData> FindAllGameSavableObjects()
-	{
-		IEnumerable<IGameSavableData> objects = FindObjectsOfType<MonoBehaviour>().OfType<IGameSavableData>();
-		return new List<IGameSavableData>(objects);
-	}
+	//	V1_FileHandler.Save(genericSaveData, Application.dataPath + "/Gameplay Beta/V1_GameFiles/" + genericSaveData.name + ".save");
+	//}
 }
 
-[System.Serializable]
+[Serializable]
+public enum GameState
+{
+	MainMenu = 0,		// Game saved while in main menu, before stellar system loaded
+	StellarSystem,		// Game saved while tweaking the Stellar System or the Planet
+	LCASelection,		// Game saved while choosing a LCA
+	CreatureCreator,	// Game saved while tweaking your organism (who up tweaking they organism) or in physical simulaton
+	Gameplay			// Game saved during open world gameplay
+}
+
+
+[Serializable]
 public class V1_GameSaveData
 {
-	// Standard Data
 	public string name;
 	public string dateCreated;
 	public string dateModified;
 	public GameState gameState;
 
-	// Stellar Object Data
-	public StarData starData;
-	public PlanetData planetData;
-
-	public enum GameState
+	public V1_GameSaveData(string name)
 	{
-		Menu = 0,           // Game saved while in main menu, before stellar system loaded
-		Stellar,            // Game saved while tweaking the Stellar System or the Planet
-		LCA,                // Game saved while choosing a LCA
-		CreatureCreator,    // Game saved while tweaking your organism (who up tweaking they organism) or in physical simulaton
-		Gameplay            // Game saved during open world gameplay
-	}
-
-	public V1_GameSaveData()
-	{
-		name = "DEFAULT NAME";
-		dateCreated = "1970-01-01";
-		dateModified = "1970-01-01";
-		gameState = GameState.Menu;
-		starData = new StarData();
-		planetData = new PlanetData();
+		this.name = name;
+		dateCreated = DateTime.Now.ToString("yyyy-MM-dd");
+		dateModified = DateTime.Now.ToString("yyyy-MM-dd");
+		gameState = GameState.MainMenu;
 	}
 }
 
-[System.Serializable]
+[Serializable]
 public class StarData
 {
 	public float mass;
@@ -115,7 +110,7 @@ public class StarData
 	}
 }
 
-[System.Serializable]
+[Serializable]
 public class PlanetData
 {
 	public float mass;
@@ -127,5 +122,71 @@ public class PlanetData
 		mass = 0;
 		radius = 0;
 		distance = 0;
+	}
+}
+
+[Serializable]
+public class MenuSceneData : V1_GameSaveData
+{
+	// deprecated, should not be saved or loaded in this state
+	// if this is the gamestate in a file, something has gone wrong
+	public MenuSceneData(string name) : base(name)
+	{
+		this.name = name;
+		gameState = GameState.MainMenu;
+	}
+}
+
+[Serializable]
+public class V1_StellarSystemSaveData : V1_GameSaveData
+{
+	public StarData starData;
+	public PlanetData planetData;
+	public PlanetData planetDataList;
+
+	public V1_StellarSystemSaveData(string name) : base(name)
+	{
+		this.name = name;
+		gameState = GameState.StellarSystem;
+
+		starData = new StarData();
+		planetData = new PlanetData();
+		planetDataList = null;
+	}
+}
+
+[Serializable]
+public class LastCommonAncestorSceneData : V1_GameSaveData
+{
+	public int playerSelection;
+
+	public LastCommonAncestorSceneData(string name) : base(name)
+	{
+		this.name = name;
+		gameState = GameState.LCASelection;
+	}
+}
+
+[Serializable]
+public class CreatureCreatorSceneData : V1_GameSaveData
+{
+	public float zoom;
+
+	public CreatureCreatorSceneData(string name) : base(name)
+	{
+		this.name = name;
+		gameState = GameState.CreatureCreator;
+	}
+}
+
+[Serializable]
+public class GameplaySceneData : V1_GameSaveData
+{
+	public float temperature;
+
+	public GameplaySceneData(string name) : base(name)
+	{
+		this.name = name;
+		gameState = GameState.Gameplay;
 	}
 }

@@ -17,7 +17,7 @@ public class ProtostellarDisk : MonoBehaviour
 	private float gravConstant = 6.6743f * Mathf.Pow(10, -11);  // m^3 / (kg * s^2)
 	private float earthMassToKG = 5.972f * Mathf.Pow(10, 24);   // kg / E_m
 	private float solarMassToKG = 1.989f * Mathf.Pow(10, 30);   // kg / S_m
-	private float AUtoM = 1.496f * Mathf.Pow(10, 11);           // m / AU
+	private float AUtoM = 1.496f * Mathf.Pow(10, 11);		   // m / AU
 
 	[Header ("Statistics")]
 	public float solarMasses;
@@ -31,7 +31,7 @@ public class ProtostellarDisk : MonoBehaviour
 	public bool visualEffects;
 	public float visualScale;
 	public float visualScaleStar;
-	public bool setSeed;    // enable before running to manually set the seed, disable for a random seed
+	public bool setSeed;	// enable before running to manually set the seed, disable for a random seed
 	public int currentSeed; // displays the current seed
 	public bool resetDisk;
 	public bool debugEffects;	private bool prevDebugEffects;

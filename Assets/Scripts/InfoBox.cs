@@ -63,7 +63,7 @@ public class InfoBox : MonoBehaviour
 
 	public string ScientificNotation(float input, int sigFigs)
 	{
-		string output = input.ToString("E" + (sigFigs - 1));    // standard scientific
+		string output = input.ToString("E" + (sigFigs - 1));	// standard scientific
 		output = output.Substring(0, (output.Length - 3));
 		output += Mathf.FloorToInt(Mathf.Log10(Mathf.Abs(input)));
 		return output;

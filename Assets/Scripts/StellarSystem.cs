@@ -17,7 +17,7 @@ public class StellarSystem : MonoBehaviour
 	public float timeScale;		// time speed
 	public bool viewScale;		// enable / disable viewing scale
 	public int minOrbits;		// minimum number of planets
-	public int maxOrbits;       // maximum number of planets
+	public int maxOrbits;	   // maximum number of planets
 
 	void Start()
 	{

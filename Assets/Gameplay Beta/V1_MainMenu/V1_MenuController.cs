@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 // Controller for all menu panels in the the Main Menu scene
-public class V1_MenuController : MonoBehaviour, IGameSavableData, ISettingsSavable
+public class V1_MenuController : MonoBehaviour, ISceneSavable, ISettingsSavable
 {
 	public GameObject mainPanel;
 	public GameObject playPanel;
@@ -82,13 +82,12 @@ public class V1_MenuController : MonoBehaviour, IGameSavableData, ISettingsSavab
 		newSavePanel.SetActive(false);
 	}
 
-	public void NewSave()
-	{
-		// CREATE NEW DEFAULT SAVEFILE
-		// GO TO STELLAR LEVEL
-		V1_GameSaveDataManager.instance.SaveGame();
-		SceneManager.LoadScene("V1_SCENE_StellarSystem", LoadSceneMode.Single);
-	}
+	//public void NewSave()
+	//{
+	//	// CREATE NEW DEFAULT SAVEFILE
+	//	// GO TO STELLAR LEVEL
+	//	V1_GameSaveDataManager.instance.NewGame();
+	//}
 
 	public void SelectDirectory()
 	{
@@ -96,11 +95,11 @@ public class V1_MenuController : MonoBehaviour, IGameSavableData, ISettingsSavab
 		directoryNameText.text = saveFileDirectory;
 	}
 
-	public void LoadGameSaveData(V1_GameSaveData data)
+	public void LoadSceneData(V1_GameSaveData data)
 	{
 	}
 
-	public void SaveGameSaveData(ref V1_GameSaveData data)
+	public void SaveSceneData(ref V1_GameSaveData data)
 	{
 		if (saveNameInput.text.Length > 0)
 		{

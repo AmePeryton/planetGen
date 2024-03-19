@@ -4571,6 +4571,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5042151218554804863, guid: 854643a33b5c87e44b02801be4c83e27, type: 3}
+      propertyPath: newGame
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5042151218554804863, guid: 854643a33b5c87e44b02801be4c83e27, type: 3}
       propertyPath: fileName
       value: unnamed save
       objectReference: {fileID: 0}

@@ -9,7 +9,7 @@ public class CameraController : MonoBehaviour
 	//public GameObject target;
 	//public SelectableObject targetScript;
 	public float moveSpeed;
-	public float[] zoomSettings = new float[5];     // closest, farthest, default (real), step (percent), smoothing
+	public float[] zoomSettings = new float[5];	 // closest, farthest, default (real), step (percent), smoothing
 	public float zoomPercent;
 	public float zoomReal;
 

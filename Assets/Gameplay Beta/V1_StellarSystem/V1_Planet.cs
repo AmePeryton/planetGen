@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class V1_Planet : MonoBehaviour, IGameSavableData
+public class V1_Planet : MonoBehaviour//, IGameSavableData
 {
 	public float mass;
 	public float radius;
@@ -11,9 +11,7 @@ public class V1_Planet : MonoBehaviour, IGameSavableData
 
 	private void Awake()
 	{
-		mass = Random.value;
-		radius = Random.value;
-		distance = 5f * Random.value;
+		//NewProperties();
 		VisualUpdate();
 	}
 
@@ -33,18 +31,24 @@ public class V1_Planet : MonoBehaviour, IGameSavableData
 		sphere.transform.localScale = radius * Vector3.one;
 	}
 
-	public void LoadGameSaveData(V1_GameSaveData data)
+	public void NewProperties()
 	{
-		mass = data.planetData.mass;
-		radius = data.planetData.radius;
-		distance = data.planetData.distance;
-		VisualUpdate();
+		mass = Random.value;
+		radius = Random.value;
+		distance = 5f * Random.value;
 	}
 
-	public void SaveGameSaveData(ref V1_GameSaveData data)
-	{
-		data.planetData.mass = mass;
-		data.planetData.radius = radius;
-		data.planetData.distance = distance;
-	}
+	//public void LoadGameSaveData(V1_GameSaveData data)
+	//{
+	//	mass = data.planetData.mass;
+	//	radius = data.planetData.radius;
+	//	distance = data.planetData.distance;
+	//}
+
+	//public void SaveGameSaveData(ref V1_GameSaveData data)
+	//{
+	//	data.planetData.mass = mass;
+	//	data.planetData.radius = radius;
+	//	data.planetData.distance = distance;
+	//}
 }

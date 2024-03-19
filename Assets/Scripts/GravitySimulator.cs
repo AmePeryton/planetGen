@@ -18,9 +18,9 @@ public class GravitySimulator : MonoBehaviour
 	public float timeScale; // speed physics is simulated, normally set by parent script
 	public float dragDensity; // the ammount of drag a body will feel from this object, mostly to simulate dust around planetesimals
 
-	private float gravConstant = 6.6743f * Mathf.Pow(10, -11);  // m^3 / (kg * s^2)
-	private float earthMassToKG = 5.972f * Mathf.Pow(10, 24);   // kg / E_m
-	private float AUtoM = 1.496f * Mathf.Pow(10, 11);           // m / AU
+	private float gravConstant = 6.6743f * Mathf.Pow(10, -11);	// m^3 / (kg * s^2)
+	private float earthMassToKG = 5.972f * Mathf.Pow(10, 24);	// kg / E_m
+	private float AUtoM = 1.496f * Mathf.Pow(10, 11);			// m / AU
 
 	void Update()
 	{
@@ -35,7 +35,7 @@ public class GravitySimulator : MonoBehaviour
 		gravitySources.RemoveAll(i => i == null);
 		foreach (GravitySimulator source in gravitySources)
 		{
-			Vector3 thisForce = (source.parentObject.transform.position - parentObject.transform.position).normalized;    // simply directional
+			Vector3 thisForce = (source.parentObject.transform.position - parentObject.transform.position).normalized;	// simply directional
 			double tempForceMagnitude = (mass * source.mass * gravConstant); // super big numbers, so must be stored as a double
 			tempForceMagnitude /= Mathf.Pow((Vector3.Distance(parentObject.transform.position, source.parentObject.transform.position) * AUtoM), 2);
 			thisForce *= (float)tempForceMagnitude;

@@ -138,7 +138,7 @@ public class CrustFragmentation : MonoBehaviour
 		{
 			pointsProjection.Add(StereographicProjection(vertex, true));
 		}
-		delaunator = new Delaunator(pointsProjection.ToPoints());   // main delaunator
+		delaunator = new Delaunator(pointsProjection.ToPoints());	// main delaunator
 		triangles = delaunator.Triangles.ToList();	// add main delaunator's triangulation to our full triangulation
 		pointsProjection.Clear();	// remove previous projected points
 

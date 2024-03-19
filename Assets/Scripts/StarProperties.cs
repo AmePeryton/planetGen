@@ -6,8 +6,8 @@ public class StarProperties : MonoBehaviour
 {
 	public ClassName stellarClass;
 	public GameObject viewPoint;
-	public float mass;              // in Solar Mass		// in kg
-	public float radius;            // in Solar Radius		// in km
+	public float mass;			  // in Solar Mass		// in kg
+	public float radius;			// in Solar Radius		// in km
 	public float temperature;		// in kiloKelvin		// in Kelvin
 	public float luminosity;		// in Solar Luminosity
 	public Color mainColor;			// inner cell color
@@ -33,7 +33,7 @@ public class StarProperties : MonoBehaviour
 
 	private float solarRadiusToAU = 0.00465047f;				// AU / S_r
 	private float solarMassToKG = 1.989f * Mathf.Pow(10, 30);   // kg / S_m
-	private float AUtoM = 1.496f * Mathf.Pow(10, 11);           // m / AU
+	private float AUtoM = 1.496f * Mathf.Pow(10, 11);		   // m / AU
 
 	void Start()
 	{
