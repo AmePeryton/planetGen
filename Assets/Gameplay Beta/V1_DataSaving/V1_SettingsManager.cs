@@ -16,20 +16,9 @@ public class V1_SettingsManager : MonoBehaviour
 	private void Awake()
 	{
 		DontDestroyOnLoad(gameObject);
-		if (instance != null)
-		{
-			Debug.LogError("V1_SettingsManager already present in scene!");
-		}
-		instance = this;
+		// Singleton line
+		if (instance != null) { Debug.LogWarning(GetType().Name + " already present in scene!"); } instance = this;
 		LoadSettings();
-	}
-
-	void Start()
-	{
-	}
-
-	void Update()
-	{
 	}
 
 	public void NewSettings()
@@ -41,9 +30,9 @@ public class V1_SettingsManager : MonoBehaviour
 	[ContextMenu("LoadSettings")]
 	public void LoadSettings()
 	{
-		this.settingsData = V1_FileHandler.Load<V1_SettingsData>(Application.dataPath + "/Gameplay Beta/V1_GameFiles/" + "settings" + ".cfg");
-		this.savableObjects = FindAllSettingsSavableObjects();
-		if (this.settingsData == null)
+		settingsData = V1_FileHandler.Load<V1_SettingsData>(Application.dataPath + "/Gameplay Beta/V1_GameFiles/" + "settings" + ".cfg");
+		savableObjects = FindAllSettingsSavableObjects();
+		if (settingsData == null)
 		{
 			Debug.Log("Settings data defaulted");
 			NewSettings();
@@ -58,7 +47,7 @@ public class V1_SettingsManager : MonoBehaviour
 	[ContextMenu("SaveSettings")]
 	public void SaveSettings()
 	{
-		this.savableObjects = FindAllSettingsSavableObjects();
+		savableObjects = FindAllSettingsSavableObjects();
 		foreach (ISettingsSavable savedObject in savableObjects)
 		{
 			savedObject.SaveSettingsData(ref settingsData);

@@ -15,11 +15,8 @@ public class V1_LoadMenuController : MonoBehaviour
 
 	private void Awake()
 	{
-		if (instance != null)
-		{
-			Debug.LogError("V1_SettingsManager already present in scene!");
-		}
-		instance = this;
+		// Singleton line
+		if (instance != null) { Debug.LogWarning(GetType().Name + " already present in scene!"); } instance = this;
 		rect = contentPanel.GetComponent<RectTransform>();
 	}
 

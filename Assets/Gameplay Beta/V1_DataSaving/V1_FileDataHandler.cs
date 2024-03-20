@@ -43,7 +43,7 @@ public class V1_FileDataHandler
 			}
 			catch (Exception e)
 			{
-				Debug.LogError("Error occured when trying to load data from file: " + fullPath + "\n" + e);
+				Debug.LogWarning("Error occured when trying to load data from file: " + fullPath + "\n" + e);
 			}
 		}
 
@@ -75,7 +75,7 @@ public class V1_FileDataHandler
 		}
 		catch (Exception e)
 		{
-			Debug.LogError("Error occured when trying to save data to file: " + fullPath + "\n" + e);
+			Debug.LogWarning("Error occured when trying to save data to file: " + fullPath + "\n" + e);
 		}
 		Debug.Log("Data saved to file " + fullPath);
 	}

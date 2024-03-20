@@ -16,7 +16,7 @@ public class V1_GameSaveDataManager : MonoBehaviour
 	{
 		DontDestroyOnLoad(gameObject);
 		// Singleton line
-		if (instance != null) { Debug.LogError(GetType().Name + " already present in scene!"); } instance = this;
+		if (instance != null) { Debug.LogWarning(GetType().Name + " already present in scene!"); } instance = this;
 	}
 
 	public void NewGame(string name)
@@ -130,9 +130,11 @@ public class MenuSceneData : V1_GameSaveData
 {
 	// deprecated, should not be saved or loaded in this state
 	// if this is the gamestate in a file, something has gone wrong
-	public MenuSceneData(string name) : base(name)
+	public MenuSceneData(V1_GameSaveData generic) : base(generic.name)
 	{
-		this.name = name;
+		//name = generic.name;
+		dateCreated = generic.dateCreated;
+		dateModified = generic.dateModified;
 		gameState = GameState.MainMenu;
 	}
 }
@@ -142,16 +144,16 @@ public class V1_StellarSystemSaveData : V1_GameSaveData
 {
 	public StarData starData;
 	public PlanetData planetData;
-	public PlanetData planetDataList;
 
-	public V1_StellarSystemSaveData(string name) : base(name)
+	public V1_StellarSystemSaveData(V1_GameSaveData generic) : base(generic.name)
 	{
-		this.name = name;
+		//name = generic.name;
+		dateCreated = generic.dateCreated;
+		dateModified = generic.dateModified;
 		gameState = GameState.StellarSystem;
 
 		starData = new StarData();
 		planetData = new PlanetData();
-		planetDataList = null;
 	}
 }
 
@@ -160,9 +162,11 @@ public class LastCommonAncestorSceneData : V1_GameSaveData
 {
 	public int playerSelection;
 
-	public LastCommonAncestorSceneData(string name) : base(name)
+	public LastCommonAncestorSceneData(V1_GameSaveData generic) : base(generic.name)
 	{
-		this.name = name;
+		//name = generic.name;
+		dateCreated = generic.dateCreated;
+		dateModified = generic.dateModified;
 		gameState = GameState.LCASelection;
 	}
 }
@@ -172,9 +176,11 @@ public class CreatureCreatorSceneData : V1_GameSaveData
 {
 	public float zoom;
 
-	public CreatureCreatorSceneData(string name) : base(name)
+	public CreatureCreatorSceneData(V1_GameSaveData generic) : base(generic.name)
 	{
-		this.name = name;
+		//name = generic.name;
+		dateCreated = generic.dateCreated;
+		dateModified = generic.dateModified;
 		gameState = GameState.CreatureCreator;
 	}
 }
@@ -184,9 +190,11 @@ public class GameplaySceneData : V1_GameSaveData
 {
 	public float temperature;
 
-	public GameplaySceneData(string name) : base(name)
+	public GameplaySceneData(V1_GameSaveData generic) : base(generic.name)
 	{
-		this.name = name;
+		//name = generic.name;
+		dateCreated = generic.dateCreated;
+		dateModified = generic.dateModified;
 		gameState = GameState.Gameplay;
 	}
 }

@@ -9,7 +9,7 @@ public class V1_LoadGameListItem : MonoBehaviour
 	public TextMeshProUGUI nameText;
 	public TextMeshProUGUI dateCreatedText;
 	public TextMeshProUGUI dateModifiedText;
-	public string name;
+	public string fileName;
 	public string dateCreated;
 	public string dateModified;
 	public int gameState;
@@ -21,7 +21,7 @@ public class V1_LoadGameListItem : MonoBehaviour
 
 	public void Instantiate(string name, string dateCreated, string dateModified)
 	{
-		this.name = name;
+		this.fileName = name;
 		this.dateCreated = dateCreated;
 		this.dateModified = dateModified;
 
@@ -32,13 +32,13 @@ public class V1_LoadGameListItem : MonoBehaviour
 
 	public void Load()
 	{
-		V1_GameSaveDataManager.instance.LoadGame(name);
+		V1_GameSaveDataManager.instance.LoadGame(fileName);
 		SceneManager.LoadScene("V1_SCENE_StellarSystem", LoadSceneMode.Single);
 	}
 
 	public void Delete()
 	{
-		V1_FileHandler.DeleteFile(Application.dataPath + "/Gameplay Beta/V1_GameFiles/" + name + ".save");
+		V1_FileHandler.DeleteFile(Application.dataPath + "/Gameplay Beta/V1_GameFiles/" + fileName + ".save");
 		V1_LoadMenuController.instance.UpdateList();
 	}
 }

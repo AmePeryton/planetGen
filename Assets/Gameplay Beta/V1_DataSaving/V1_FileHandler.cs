@@ -34,12 +34,12 @@ public class V1_FileHandler
 			}
 			catch (Exception e)
 			{
-				Debug.LogError("Error occured when trying to load data from file: " + fullPath + "\n" + e);
+				Debug.LogWarning("Error occured when trying to load data from file: " + fullPath + "\n" + e);
 			}
 		}
 		else
 		{
-			Debug.LogError("[LOAD] File could not be found at " + fullPath);
+			Debug.LogWarning("[LOAD] File could not be found at " + fullPath);
 		}
 
 		Debug.Log("Data loaded from file " + fullPath);
@@ -68,7 +68,7 @@ public class V1_FileHandler
 		}
 		catch (Exception e)
 		{
-			Debug.LogError("Error occured when trying to save data to file: " + fullPath + "\n" + e);
+			Debug.LogWarning("Error occured when trying to save data to file: " + fullPath + "\n" + e);
 		}
 		Debug.Log("Data saved to file " + fullPath);
 	}
@@ -84,12 +84,12 @@ public class V1_FileHandler
 			}
 			catch (Exception e)
 			{
-				Debug.LogError("Error occured when trying to delete file: " + fullPath + "\n" + e);
+				Debug.LogWarning("Error occured when trying to delete file: " + fullPath + "\n" + e);
 			}
 		}
 		else
 		{
-			Debug.LogError("[DELETE] File could not be found at " + fullPath);
+			Debug.LogWarning("[DELETE] File could not be found at " + fullPath);
 		}
 
 		Debug.Log("File deleted: " + fullPath);

@@ -53,8 +53,10 @@ public class CanvasSampleOpenFileTextMultiple : MonoBehaviour, IPointerDownHandl
     private IEnumerator OutputRoutine(string[] urlArr) {
         var outputText = "";
         for (int i = 0; i < urlArr.Length; i++) {
-            var loader = new WWW(urlArr[i]);
-            yield return loader;
+#pragma warning disable CS0618 // Type or member is obsolete
+			var loader = new WWW(urlArr[i]);
+#pragma warning restore CS0618 // Type or member is obsolete
+			yield return loader;
             outputText += loader.text;
         }
         output.text = outputText;
