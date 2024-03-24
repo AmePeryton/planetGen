@@ -42,7 +42,7 @@ public class V1_FileHandler
 			Debug.LogWarning("[LOAD] File could not be found at " + fullPath);
 		}
 
-		Debug.Log("Data loaded from file " + fullPath);
+		//Debug.Log("Data loaded from file " + fullPath);
 		return loadedData;
 	}
 
@@ -70,7 +70,7 @@ public class V1_FileHandler
 		{
 			Debug.LogWarning("Error occured when trying to save data to file: " + fullPath + "\n" + e);
 		}
-		Debug.Log("Data saved to file " + fullPath);
+		//Debug.Log("Data saved to file " + fullPath);
 	}
 
 	// Delete a file from a given folder (intended to delete game save files)
@@ -92,7 +92,7 @@ public class V1_FileHandler
 			Debug.LogWarning("[DELETE] File could not be found at " + fullPath);
 		}
 
-		Debug.Log("File deleted: " + fullPath);
+		//Debug.Log("File deleted: " + fullPath);
 	}
 
 	public static string[] FindAllFiles(string directory, string extension = "*")

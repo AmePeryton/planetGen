@@ -52,21 +52,6 @@ public class V1_GameSaveDataManager : MonoBehaviour
 				break;
 		}
 	}
-
-	//[ContextMenu("SaveGame")]
-	//public void SaveGame()
-	//{
-	//	if (this.genericSaveData == null || this.sceneManager == null)
-	//	{
-	//		Debug.Log("NO DATA or NO MANAGER");
-	//		return;
-	//	}
-
-	//	genericSaveData = sceneManager.saveData;
-	//	genericSaveData.dateModified = DateTime.Now.ToString("yyyy-MM-dd");
-
-	//	V1_FileHandler.Save(genericSaveData, Application.dataPath + "/Gameplay Beta/V1_GameFiles/" + genericSaveData.name + ".save");
-	//}
 }
 
 [Serializable]
@@ -142,8 +127,8 @@ public class MenuSceneData : V1_GameSaveData
 [Serializable]
 public class V1_StellarSystemSaveData : V1_GameSaveData
 {
-	public StarData starData;
-	public PlanetData planetData;
+	public List<StarData> starData;
+	public List<PlanetData> planetData;
 
 	public V1_StellarSystemSaveData(V1_GameSaveData generic) : base(generic.name)
 	{
@@ -152,8 +137,8 @@ public class V1_StellarSystemSaveData : V1_GameSaveData
 		dateModified = generic.dateModified;
 		gameState = GameState.StellarSystem;
 
-		starData = new StarData();
-		planetData = new PlanetData();
+		starData = new List<StarData>();
+		planetData = new List<PlanetData>();
 	}
 }
 

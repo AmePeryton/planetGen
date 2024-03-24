@@ -28,10 +28,7 @@ public class V1_PlayPanelController : MonoBehaviour, ISceneSavable
 
 	public void NewSave()
 	{
-		// CREATE NEW DEFAULT SAVEFILE
-		// GO TO STELLAR LEVEL
 		V1_GameSaveDataManager.instance.NewGame(saveNameInput.text);
-		SceneManager.LoadScene("V1_SCENE_StellarSystem", LoadSceneMode.Single);
 	}
 
 	public void LoadSceneData(V1_GameSaveData data)

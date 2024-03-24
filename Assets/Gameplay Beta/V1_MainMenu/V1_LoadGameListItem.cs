@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class V1_LoadGameListItem : MonoBehaviour
 {
@@ -33,7 +32,6 @@ public class V1_LoadGameListItem : MonoBehaviour
 	public void Load()
 	{
 		V1_GameSaveDataManager.instance.LoadGame(fileName);
-		SceneManager.LoadScene("V1_SCENE_StellarSystem", LoadSceneMode.Single);
 	}
 
 	public void Delete()

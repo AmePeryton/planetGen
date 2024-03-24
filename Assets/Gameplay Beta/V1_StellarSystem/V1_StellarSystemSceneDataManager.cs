@@ -11,7 +11,7 @@ public class V1_StellarSystemSceneDataManager : V1_SceneDataManager
 	//public static V1_StellarSystemSceneDataManager instance { get; private set; }
 	public static V1_SceneDataManager instance { get; private set; }
 	public V1_StellarSystemSaveData saveData;
-	private V1_GameSaveDataManager gsdm;
+	//private V1_GameSaveDataManager gsdm;
 	public List<IStellarSystemSavable> savables;
 
 	private void Awake()
@@ -22,6 +22,7 @@ public class V1_StellarSystemSceneDataManager : V1_SceneDataManager
 
 	private void Start()
 	{
+		// Return to menu if game is opened in stellar system scene
 		if (V1_GameSaveDataManager.instance == null)
 		{
 			Debug.LogWarning("V1_GameSaveDataManager not found! Returning to menu");
@@ -29,10 +30,10 @@ public class V1_StellarSystemSceneDataManager : V1_SceneDataManager
 			return;
 		}
 
-		gsdm = V1_GameSaveDataManager.instance;
-		gsdm.sdm = this;
+		//gsdm = V1_GameSaveDataManager.instance;
+		V1_GameSaveDataManager.instance.sdm = this;
 
-		if (gsdm.newGame)
+		if (V1_GameSaveDataManager.instance.newGame)
 		{
 			NewGame();
 		}
@@ -42,37 +43,27 @@ public class V1_StellarSystemSceneDataManager : V1_SceneDataManager
 		}
 	}
 
+	// Create new data without loading existing data
 	public void NewGame()
 	{
-		saveData = new V1_StellarSystemSaveData(gsdm.genericSaveData);
-		// prompt the stellar system to make up new random star and planets
+		saveData = new V1_StellarSystemSaveData(V1_GameSaveDataManager.instance.genericSaveData);
+		V1_StellarSystem.instance.NewStellarSystem();
 	}
 
+	// Load data from a file to the scene
 	public override void LoadSceneData()
 	{
-		saveData = V1_FileHandler.Load<V1_StellarSystemSaveData>(Application.dataPath + "/Gameplay Beta/V1_GameFiles/" + gsdm.genericSaveData.name + ".save");
-		savables = FindSavableObjects();
-		foreach (var savable in savables)
-		{
-			// prompt them to load their data
-		}
+		saveData = V1_FileHandler.Load<V1_StellarSystemSaveData>
+			(Application.dataPath + "/Gameplay Beta/V1_GameFiles/" + V1_GameSaveDataManager.instance.genericSaveData.name + ".save");
+		V1_StellarSystem.instance.LoadData(saveData);
 	}
 
+	// Save the scene's data to a file
 	public override void SaveSceneData()
 	{
-		gsdm.genericSaveData.dateModified = DateTime.Now.ToString("yyyy-MM-dd");
-		saveData = new V1_StellarSystemSaveData(gsdm.genericSaveData);
-		savables = FindSavableObjects();
-		foreach (var savable in savables)
-		{
-			// prompt them to save their data
-		}
+		V1_GameSaveDataManager.instance.genericSaveData.dateModified = DateTime.Now.ToString("yyyy-MM-dd");
+		saveData = new V1_StellarSystemSaveData(V1_GameSaveDataManager.instance.genericSaveData);
+		V1_StellarSystem.instance.SaveData(ref saveData);
 		V1_FileHandler.Save(saveData, Application.dataPath + "/Gameplay Beta/V1_GameFiles/" + saveData.name + ".save");
-	}
-
-	private List<IStellarSystemSavable> FindSavableObjects()
-	{
-		IEnumerable<IStellarSystemSavable> objects = FindObjectsOfType<MonoBehaviour>().OfType<IStellarSystemSavable>();
-		return new List<IStellarSystemSavable>(objects);
 	}
 }
