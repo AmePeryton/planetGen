@@ -1,12 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class V1_Planet : MonoBehaviour
 {
-	public float mass;
-	public float radius;
-	public float distance;
+	public PlanetData data;
 	public GameObject sphere;
 
 	private void Awake()
@@ -25,15 +24,36 @@ public class V1_Planet : MonoBehaviour
 
 	private void VisualUpdate()
 	{
-		transform.localPosition = new Vector3(0, 0, distance);
-		sphere.transform.localScale = radius * Vector3.one;
+		transform.localPosition = new Vector3(0, 0, data.distance);
+		sphere.transform.localScale = data.radius * Vector3.one;
 	}
 
 	public void RandomizeProperties()
 	{
-		mass = Random.value;
-		radius = Random.value;
-		distance = 5f * Random.value;
+		data.Randomize();
 		VisualUpdate();
+	}
+}
+
+[Serializable]
+public class PlanetData
+{
+	public float mass;
+	public float radius;
+	public float distance;
+
+	public PlanetData()
+	{
+		mass = 0;
+		radius = 0;
+		distance = 0;
+	}
+
+	public PlanetData Randomize()
+	{
+		mass = 0.5f * UnityEngine.Random.value + 0.5f;
+		radius = 0.5f * UnityEngine.Random.value + 0.1f;
+		distance = 4f * UnityEngine.Random.value + 1f;
+		return this;
 	}
 }

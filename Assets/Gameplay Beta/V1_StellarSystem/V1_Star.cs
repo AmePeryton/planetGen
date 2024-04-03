@@ -1,11 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class V1_Star : MonoBehaviour
 {
-	public float mass;
-	public float age;
+	public StarData data;
 	public GameObject sphere;
 
 	private void Awake()
@@ -24,13 +24,32 @@ public class V1_Star : MonoBehaviour
 
 	private void VisualUpdate()
 	{
-		sphere.transform.localScale = Mathf.Pow(mass, 0.74f) * Vector3.one;
+		sphere.transform.localScale = Mathf.Pow(data.mass, 0.74f) * Vector3.one;
 	}
 
 	public void RandomizeProperties()
 	{
-		mass = Random.value;
-		age = Random.value;
+		data.Randomize();
 		VisualUpdate();
+	}
+}
+
+[Serializable]
+public class StarData
+{
+	public float mass;
+	public float age;
+
+	public StarData()
+	{
+		mass = 0;
+		age = 0;
+	}
+
+	public StarData Randomize()
+	{
+		mass = UnityEngine.Random.value + 0.5f;
+		age = 4f * UnityEngine.Random.value;
+		return this;
 	}
 }

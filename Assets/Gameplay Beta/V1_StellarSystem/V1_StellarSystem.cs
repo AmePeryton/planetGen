@@ -45,8 +45,7 @@ public class V1_StellarSystem : MonoBehaviour, IStellarSystemSavable
 		{
 			GameObject newObj = Instantiate(starPrefab);
 			V1_Star newStar = newObj.GetComponent<V1_Star>();
-			newStar.mass = star.mass;
-			newStar.age = star.age;
+			newStar.data = star;
 			stars.Add(newStar);
 		}
 
@@ -55,9 +54,7 @@ public class V1_StellarSystem : MonoBehaviour, IStellarSystemSavable
 		{
 			GameObject newObj = Instantiate(planetPrefab);
 			V1_Planet newPlanet = newObj.GetComponent<V1_Planet>();
-			newPlanet.mass = planet.mass;
-			newPlanet.radius = planet.radius;
-			newPlanet.distance = planet.distance;
+			newPlanet.data = planet;
 			planets.Add(newPlanet);
 		}
 	}
@@ -67,24 +64,13 @@ public class V1_StellarSystem : MonoBehaviour, IStellarSystemSavable
 		// Save star data from each star object
 		foreach (V1_Star star in stars)
 		{
-			StarData newStarData = new StarData
-			{
-				mass = star.mass,
-				age = star.age
-			};
-			data.starData.Add(newStarData);
+			data.starData.Add(star.data);
 		}
 
 		// Save planet data from planet star object
 		foreach (V1_Planet planet in planets)
 		{
-			PlanetData newPlanetData = new PlanetData
-			{
-				mass = planet.mass,
-				radius = planet.radius,
-				distance = planet.distance
-			};
-			data.planetData.Add(newPlanetData);
+			data.planetData.Add(planet.data);
 		}
 	}
 }

@@ -64,7 +64,6 @@ public enum GameState
 	Gameplay			// Game saved during open world gameplay
 }
 
-
 [Serializable]
 public class V1_GameSaveData
 {
@@ -79,34 +78,6 @@ public class V1_GameSaveData
 		dateCreated = DateTime.Now.ToString("yyyy-MM-dd");
 		dateModified = DateTime.Now.ToString("yyyy-MM-dd");
 		gameState = GameState.MainMenu;
-	}
-}
-
-[Serializable]
-public class StarData
-{
-	public float mass;
-	public float age;
-
-	public StarData()
-	{
-		mass = 0;
-		age = 0;
-	}
-}
-
-[Serializable]
-public class PlanetData
-{
-	public float mass;
-	public float radius;
-	public float distance;
-
-	public PlanetData()
-	{
-		mass = 0;
-		radius = 0;
-		distance = 0;
 	}
 }
 

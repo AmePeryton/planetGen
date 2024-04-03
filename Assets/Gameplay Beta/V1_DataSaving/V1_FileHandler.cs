@@ -103,7 +103,7 @@ public class V1_FileHandler
 		foreach (FileInfo file in files)
 		{
 			paths.Add(file.FullName);
-			Debug.Log("FILE: " + file.FullName);
+			//Debug.Log("FILE: " + file.FullName);
 		}
 		return paths.ToArray();
 	}
