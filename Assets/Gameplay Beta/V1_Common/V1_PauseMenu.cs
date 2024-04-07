@@ -27,7 +27,7 @@ public class V1_PauseMenu : MonoBehaviour
 
 	public void SaveGame()
 	{
-		V1_GameSaveDataManager.instance.sdm.SaveSceneData();
+		V1_SceneController.instance.SaveData();
 	}
 
 	public void MainMenu()

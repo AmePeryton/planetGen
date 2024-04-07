@@ -9,7 +9,6 @@ public class V1_GameSaveDataManager : MonoBehaviour
 {
 	public static V1_GameSaveDataManager instance { get; private set; }
 	public V1_GameSaveData genericSaveData;
-	public V1_SceneDataManager sdm;
 	public bool newGame;
 
 	private void Awake()
