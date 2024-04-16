@@ -24,7 +24,8 @@ public class V1_Star : MonoBehaviour
 
 	private void VisualUpdate()
 	{
-		sphere.transform.localScale = Mathf.Pow(data.mass, 0.74f) * Vector3.one;
+		//sphere.transform.localScale = Mathf.Pow(data.mass, 0.74f) * Vector3.one;
+		sphere.transform.localScale = data.radius / V1_StellarUnits.solarRadius_km * Vector3.one;
 	}
 
 	public void RandomizeProperties()
@@ -37,19 +38,80 @@ public class V1_Star : MonoBehaviour
 [Serializable]
 public class StarData
 {
-	public float mass;
-	public float age;
+	public float age;			// in years
+	public float mass;			// in kilograms
+	public float temperature;	// in Kelvins, surface
+	public float radius;		// in kilometers
+	public float luminosity;	// in Solar Luminosity (since Watts would be too large)
+	public Color color;         // Base color
+
+	public List<StarLayer> layers;
 
 	public StarData()
 	{
-		mass = 0;
 		age = 0;
+		mass = 0;
+		temperature = 0;
+		radius = 0;
+		luminosity = 0;
+		color = Color.black;
 	}
 
 	public StarData Randomize()
 	{
-		mass = UnityEngine.Random.value + 0.5f;
 		age = 4f * UnityEngine.Random.value;
+		mass = UnityEngine.Random.value + 0.5f;
+		temperature = 5780;		// PLACEHOLDER
+		radius = 696340;		// PLACEHOLDER
+		luminosity = 1;			// PLACEHOLDER
+		color = Color.yellow;   // PLACEHOLDER
+		layers.Add(new StarLayer("Core")
+		{
+			innerRadius = 0,
+			outerRadius = 0,
+			temperature = 15000000,
+			density = 150,
+			pressure = 3840000000000,
+			mass = 1,
+			energyOutput = 0,
+			elements = new float[]
+			{
+				0.74f,
+				0.24f,
+				0.02f
+			}
+		});
+		
 		return this;
+	}
+}
+
+[Serializable]
+public class StarLayer
+{
+	public string name;
+	public float innerRadius;
+	public float outerRadius;
+	public float temperature;
+	public float density;
+	public float pressure;
+	public float mass;
+	public float energyOutput;
+	public float[] elements;
+
+	public StarLayer(string name)
+	{
+		this.name = name;
+		innerRadius = 0;
+		outerRadius = 0;
+		temperature = 0;
+		density = 0;
+		pressure = 0;
+		mass = 0;
+		energyOutput = 0;
+		elements = new float[]
+		{
+
+		};
 	}
 }
