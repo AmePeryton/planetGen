@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class V1_Planet : MonoBehaviour
+public class V1_Moon : MonoBehaviour
 {
-	public PlanetData data;
+	public MoonData data;
 	public GameObject sphere;
 
 	private void Awake()
@@ -36,24 +36,33 @@ public class V1_Planet : MonoBehaviour
 }
 
 [Serializable]
-public class PlanetData
+public class MoonData
 {
-	public float mass;
-	public float radius;
-	public float distance;
+	public float mass;      // in Earth Masses
+	public float radius;    // in Earth Radii
+	public float distance;  // in AU
 
-	public PlanetData()
+	public MoonData()
 	{
 		mass = 0;
 		radius = 0;
 		distance = 0;
 	}
 
-	public PlanetData Randomize()
+	public MoonData Randomize()
 	{
-		mass = 0.5f * UnityEngine.Random.value + 0.5f;
-		radius = 0.5f * UnityEngine.Random.value + 0.1f;
-		distance = 4f * UnityEngine.Random.value + 1f;
+		mass = 0.1f * UnityEngine.Random.value + 0f;
+		radius = 0.2f * UnityEngine.Random.value + 0.1f;
+		distance = 0.1f * UnityEngine.Random.value + 0.01f;
+		return this;
+	}
+
+	// Earth's Moon's current properties
+	public MoonData Default()
+	{
+		mass = 0.0123032f;
+		radius = 0.2728069f;
+		distance = 0.00256955529f;
 		return this;
 	}
 }

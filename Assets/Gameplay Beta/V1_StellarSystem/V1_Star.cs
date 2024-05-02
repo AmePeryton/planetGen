@@ -25,7 +25,7 @@ public class V1_Star : MonoBehaviour
 	private void VisualUpdate()
 	{
 		//sphere.transform.localScale = Mathf.Pow(data.mass, 0.74f) * Vector3.one;
-		sphere.transform.localScale = data.radius / V1_StellarUnits.solarRadius_km * Vector3.one;
+		sphere.transform.localScale = data.radius * Vector3.one;
 	}
 
 	public void RandomizeProperties()
@@ -38,14 +38,13 @@ public class V1_Star : MonoBehaviour
 [Serializable]
 public class StarData
 {
-	public float age;			// in years
-	public float mass;			// in kilograms
+	public float age;			// in billions of years (Gyr)
+	public float mass;			// in Solar Masses
 	public float temperature;	// in Kelvins, surface
-	public float radius;		// in kilometers
+	public float radius;		// in Solar Radii
 	public float luminosity;	// in Solar Luminosity (since Watts would be too large)
-	public Color color;         // Base color
-
-	public List<StarLayer> layers;
+	public Color color;			// Base color
+	//public List<StarLayer> layers;
 
 	public StarData()
 	{
@@ -62,10 +61,10 @@ public class StarData
 		age = 4f * UnityEngine.Random.value;
 		mass = UnityEngine.Random.value + 0.5f;
 		temperature = 5780;		// PLACEHOLDER
-		radius = 696340;		// PLACEHOLDER
+		radius = 4f * UnityEngine.Random.value;
 		luminosity = 1;			// PLACEHOLDER
-		color = Color.yellow;   // PLACEHOLDER
-		layers.Add(new StarLayer("Core")
+		color = Color.yellow;	// PLACEHOLDER
+		/*layers.Add(new StarLayer("Core")
 		{
 			innerRadius = 0,
 			outerRadius = 0,
@@ -80,8 +79,20 @@ public class StarData
 				0.24f,
 				0.02f
 			}
-		});
+		});*/
 		
+		return this;
+	}
+
+	// Our sun's current properties
+	public StarData Default()
+	{
+		age = 4.603f;
+		mass = 1;
+		temperature = 5772;
+		radius = 1;
+		luminosity = 1;
+		color = Color.yellow;
 		return this;
 	}
 }

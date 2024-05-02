@@ -95,24 +95,6 @@ public class MenuSceneData : V1_GameSaveData
 }
 
 [Serializable]
-public class V1_StellarSystemSaveData : V1_GameSaveData
-{
-	public List<StarData> starData;
-	public List<PlanetData> planetData;
-
-	public V1_StellarSystemSaveData(V1_GameSaveData generic) : base(generic.name)
-	{
-		//name = generic.name;
-		dateCreated = generic.dateCreated;
-		dateModified = generic.dateModified;
-		gameState = GameState.StellarSystem;
-
-		starData = new List<StarData>();
-		planetData = new List<PlanetData>();
-	}
-}
-
-[Serializable]
 public class LastCommonAncestorSceneData : V1_GameSaveData
 {
 	public int playerSelection;

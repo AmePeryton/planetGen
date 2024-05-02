@@ -382,6 +382,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 7841008782681731268, guid: 42912d8adc2921c4a8672918f12d72e0, type: 3}
+      propertyPath: moonPrefab
+      value: 
+      objectReference: {fileID: 1360727041865044879, guid: 7c38e70ac8031614f87670ffbef83231, type: 3}
+    - target: {fileID: 7841008782681731268, guid: 42912d8adc2921c4a8672918f12d72e0, type: 3}
+      propertyPath: mainPlanetPrefab
+      value: 
+      objectReference: {fileID: 3489410587132474510, guid: 2eebbd6bf63646b4ca5324185f04cca6, type: 3}
+    - target: {fileID: 7841008782681731268, guid: 42912d8adc2921c4a8672918f12d72e0, type: 3}
+      propertyPath: otherPlanetPrefab
+      value: 
+      objectReference: {fileID: 3489410587132474510, guid: 5f29d945d483da943a84e3702f533ffa, type: 3}
+    - target: {fileID: 7841008782681731268, guid: 42912d8adc2921c4a8672918f12d72e0, type: 3}
       propertyPath: saveData.gameState
       value: 1
       objectReference: {fileID: 0}

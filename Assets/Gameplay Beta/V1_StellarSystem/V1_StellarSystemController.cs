@@ -9,10 +9,15 @@ public class V1_StellarSystemController : V1_SceneController
 {
 	public static new V1_StellarSystemController instance { get; private set; }
 	public V1_StellarSystemSaveData saveData;
+	public V1_Star star;
+	public V1_MainPlanet mainPlanet;
+	public List<V1_OtherPlanet> otherplanets;
+	public float[] habitableZone;
+
 	public GameObject starPrefab;
-	public GameObject planetPrefab;
-	public List<V1_Star> stars;
-	public List<V1_Planet> planets;
+	public GameObject mainPlanetPrefab;
+	public GameObject otherPlanetPrefab;
+	public GameObject moonPrefab;
 
 	private void Awake()
 	{
@@ -53,22 +58,25 @@ public class V1_StellarSystemController : V1_SceneController
 		saveData = V1_FileHandler.Load<V1_StellarSystemSaveData>
 			(Application.dataPath + "/Gameplay Beta/V1_GameFiles/" + V1_GameSaveDataManager.instance.genericSaveData.name + ".save");
 
-		// Spawn star as listed in the save data
-		foreach (StarData star in saveData.starData)
-		{
-			GameObject newObj = Instantiate(starPrefab);
-			V1_Star newStar = newObj.GetComponent<V1_Star>();
-			newStar.data = star;
-			stars.Add(newStar);
-		}
+		// Spawn star as defined in the save data
+		GameObject newStarObj = Instantiate(starPrefab);
+		V1_Star newStar = newStarObj.GetComponent<V1_Star>();
+		newStar.data = saveData.starData;
+		star = newStar;
 
-		// Spawn planets as listed in the save data
-		foreach (PlanetData planet in saveData.planetData)
+		// Spawn main planet as defined in the save data
+		GameObject newMainPlanetObj = Instantiate(mainPlanetPrefab);
+		V1_MainPlanet newMainPlanet = newMainPlanetObj.GetComponent<V1_MainPlanet>();
+		newMainPlanet.data = saveData.mainPlanetData;
+		mainPlanet = newMainPlanet;
+
+		// Spawn other planets as listed in the save data
+		foreach (OtherPlanetData otherPlanet in saveData.otherPlanetData)
 		{
-			GameObject newObj = Instantiate(planetPrefab);
-			V1_Planet newPlanet = newObj.GetComponent<V1_Planet>();
-			newPlanet.data = planet;
-			planets.Add(newPlanet);
+			GameObject newOtherPlanetObj = Instantiate(otherPlanetPrefab);
+			V1_OtherPlanet newOtherPlanet = newOtherPlanetObj.GetComponent<V1_OtherPlanet>();
+			newOtherPlanet.data = otherPlanet;
+			otherplanets.Add(newOtherPlanet);
 		}
 	}
 
@@ -77,16 +85,16 @@ public class V1_StellarSystemController : V1_SceneController
 		V1_GameSaveDataManager.instance.genericSaveData.dateModified = DateTime.Now.ToString("yyyy-MM-dd");
 		saveData = new V1_StellarSystemSaveData(V1_GameSaveDataManager.instance.genericSaveData);
 
-		// Save star data from each star object
-		foreach (V1_Star star in stars)
-		{
-			saveData.starData.Add(star.data);
-		}
+		// Save star data from the star object
+		saveData.starData = star.data;
 
-		// Save planet data from planet star object
-		foreach (V1_Planet planet in planets)
+		// Save main planet data from the main planet object
+		saveData.mainPlanetData = mainPlanet.data;
+
+		// Save other planet data from other planet objects
+		foreach (V1_OtherPlanet otherPlanet in otherplanets)
 		{
-			saveData.planetData.Add(planet.data);
+			saveData.otherPlanetData.Add(otherPlanet.data);
 		}
 
 		V1_FileHandler.Save(saveData, Application.dataPath + "/Gameplay Beta/V1_GameFiles/" + saveData.name + ".save");
@@ -94,22 +102,61 @@ public class V1_StellarSystemController : V1_SceneController
 
 	public void NewStellarSystem()
 	{
+		// create ONE new star (I'll maybe do binary systems later)
+		// randomize star mass and age
+		// calculate habitable zone for star (strictly, liquid water zone)
+		// randomly place main planet in this zone
+		// assign some other planet orbits based on orbital resonance with main planet
+
+		//
+
 		// New Star
+		GameObject newStarObj = Instantiate(starPrefab);
+		V1_Star newStar = newStarObj.GetComponent<V1_Star>();
+		newStar.RandomizeProperties();
+		star = newStar;
+
+		// Calculate habitable zone
+		habitableZone = new float[]
 		{
-			GameObject newObj = Instantiate(starPrefab);
-			V1_Star newStar = newObj.GetComponent<V1_Star>();
-			newStar.RandomizeProperties();
-			stars.Add(newStar);
-		}
+			Mathf.Sqrt(star.data.luminosity/1.1f),
+			Mathf.Sqrt(star.data.luminosity/0.53f)
+		};
+
+		// New Main Planet
+		GameObject newMainPlanetObj = Instantiate(mainPlanetPrefab);
+		V1_MainPlanet newMainPlanet = newMainPlanetObj.GetComponent<V1_MainPlanet>();
+		newMainPlanet.RandomizeProperties();
+		mainPlanet = newMainPlanet;
 
 		// New Planets
 		int numPlanets = UnityEngine.Random.Range(1, 4);
 		for (int i = 0; i < numPlanets; i++)
 		{
-			GameObject newObj = Instantiate(planetPrefab);
-			V1_Planet newPlanet = newObj.GetComponent<V1_Planet>();
+			GameObject newPlanetObj = Instantiate(otherPlanetPrefab);
+			V1_OtherPlanet newPlanet = newPlanetObj.GetComponent<V1_OtherPlanet>();
 			newPlanet.RandomizeProperties();
-			planets.Add(newPlanet);
+			otherplanets.Add(newPlanet);
 		}
+	}
+}
+
+[Serializable]
+public class V1_StellarSystemSaveData : V1_GameSaveData
+{
+	public StarData starData;
+	public MainPlanetData mainPlanetData;
+	public List<OtherPlanetData> otherPlanetData;
+
+	public V1_StellarSystemSaveData(V1_GameSaveData generic) : base(generic.name)
+	{
+		//name = generic.name;
+		dateCreated = generic.dateCreated;
+		dateModified = generic.dateModified;
+		gameState = GameState.StellarSystem;
+
+		starData = new StarData();
+		mainPlanetData = new MainPlanetData();
+		otherPlanetData = new List<OtherPlanetData>();
 	}
 }
