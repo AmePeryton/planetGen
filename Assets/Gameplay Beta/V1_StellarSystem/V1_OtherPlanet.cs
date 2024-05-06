@@ -41,14 +41,14 @@ public class OtherPlanetData
 	public float mass;		// in Earth Masses
 	public float radius;	// in Earth Radii
 	public float distance;  // in AU
-	public List<V1_Moon> moons;
+	public List<MoonData> moons;
 
 	public OtherPlanetData()
 	{
 		mass = 0;
 		radius = 0;
 		distance = 0;
-		moons = new List<V1_Moon>();
+		moons = new List<MoonData>();
 	}
 
 	public OtherPlanetData Randomize()

@@ -69,6 +69,12 @@ public class V1_StellarSystemController : V1_SceneController
 		V1_MainPlanet newMainPlanet = newMainPlanetObj.GetComponent<V1_MainPlanet>();
 		newMainPlanet.data = saveData.mainPlanetData;
 		mainPlanet = newMainPlanet;
+		foreach (MoonData moon in mainPlanet.data.moons)
+		{
+			GameObject newMoonObj = Instantiate(moonPrefab, mainPlanet.transform);
+			V1_Moon newMoon = newMoonObj.GetComponent<V1_Moon>();
+			newMoon.data = moon;
+		}
 
 		// Spawn other planets as listed in the save data
 		foreach (OtherPlanetData otherPlanet in saveData.otherPlanetData)
@@ -77,6 +83,12 @@ public class V1_StellarSystemController : V1_SceneController
 			V1_OtherPlanet newOtherPlanet = newOtherPlanetObj.GetComponent<V1_OtherPlanet>();
 			newOtherPlanet.data = otherPlanet;
 			otherplanets.Add(newOtherPlanet);
+			foreach (MoonData moon in newOtherPlanet.data.moons)
+			{
+				GameObject newMoonObj = Instantiate(moonPrefab, newOtherPlanet.transform);
+				V1_Moon newMoon = newMoonObj.GetComponent<V1_Moon>();
+				newMoon.data = moon;
+			}
 		}
 	}
 
@@ -90,6 +102,11 @@ public class V1_StellarSystemController : V1_SceneController
 
 		// Save main planet data from the main planet object
 		saveData.mainPlanetData = mainPlanet.data;
+		//foreach (MoonData moon in mainPlanet.data.moons)
+		//{
+		//	V1_Moon newMoon = newMoonObj.GetComponent<V1_Moon>();
+		//	newMoon.data = moon;
+		//}
 
 		// Save other planet data from other planet objects
 		foreach (V1_OtherPlanet otherPlanet in otherplanets)
@@ -128,6 +145,14 @@ public class V1_StellarSystemController : V1_SceneController
 		V1_MainPlanet newMainPlanet = newMainPlanetObj.GetComponent<V1_MainPlanet>();
 		newMainPlanet.RandomizeProperties();
 		mainPlanet = newMainPlanet;
+		int numMoons = UnityEngine.Random.Range(0, 2);
+		for (int i = 0; i < numMoons; i++)
+		{
+			GameObject newMoonObj = Instantiate(moonPrefab, mainPlanet.transform);
+			V1_Moon newMoon = newMoonObj.GetComponent<V1_Moon>();
+			newMoon.RandomizeProperties();
+			mainPlanet.data.moons.Add(newMoon.data);
+		}
 
 		// New Planets
 		int numPlanets = UnityEngine.Random.Range(1, 4);
@@ -137,6 +162,15 @@ public class V1_StellarSystemController : V1_SceneController
 			V1_OtherPlanet newPlanet = newPlanetObj.GetComponent<V1_OtherPlanet>();
 			newPlanet.RandomizeProperties();
 			otherplanets.Add(newPlanet);
+
+			numMoons = UnityEngine.Random.Range(0, 2);
+			for (int j = 0; j < numMoons; j++)
+			{
+				GameObject newMoonObj = Instantiate(moonPrefab, newPlanetObj.transform);
+				V1_Moon newMoon = newMoonObj.GetComponent<V1_Moon>();
+				newMoon.RandomizeProperties();
+				newPlanet.data.moons.Add(newMoon.data);
+			}
 		}
 	}
 }

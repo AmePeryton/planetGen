@@ -26,6 +26,7 @@ public class V1_Star : MonoBehaviour
 	{
 		//sphere.transform.localScale = Mathf.Pow(data.mass, 0.74f) * Vector3.one;
 		sphere.transform.localScale = data.radius * Vector3.one;
+		sphere.GetComponent<Renderer>().material.color = data.color;
 	}
 
 	public void RandomizeProperties()

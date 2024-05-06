@@ -36,30 +36,33 @@ public class V1_MainPlanet : MonoBehaviour
 }
 
 [Serializable]
-public class MainPlanetData : OtherPlanetData
+public class MainPlanetData
 {
 	public string name;
+	public float mass;      // in Earth Masses
+	public float radius;    // in Earth Radii
+	public float distance;  // in AU
+	public List<MoonData> moons;
 
 	public MainPlanetData()
 	{
+		name = "initial main planet";
 		mass = 0;
 		radius = 0;
 		distance = 0;
-
-		name = "initial main planet";
+		moons = new List<MoonData>();
 	}
 
-	public new MainPlanetData Randomize()
+	public MainPlanetData Randomize()
 	{
+		name = "randomized main planet";
 		mass = 0.4f * UnityEngine.Random.value + 0.8f;
 		radius = 0.2f * UnityEngine.Random.value + 0.9f;
 		distance = 0.2f * UnityEngine.Random.value + 0.9f;
-
-		name = "randomized main planet";
 		return this;
 	}
 
-	public new MainPlanetData Default()
+	public MainPlanetData Default()
 	{
 		mass = 1;
 		radius = 1;
