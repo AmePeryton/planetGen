@@ -119,14 +119,6 @@ public class V1_StellarSystemController : V1_SceneController
 
 	public void NewStellarSystem()
 	{
-		// create ONE new star (I'll maybe do binary systems later)
-		// randomize star mass and age
-		// calculate habitable zone for star (strictly, liquid water zone)
-		// randomly place main planet in this zone
-		// assign some other planet orbits based on orbital resonance with main planet
-
-		//
-
 		// New Star
 		GameObject newStarObj = Instantiate(starPrefab);
 		V1_Star newStar = newStarObj.GetComponent<V1_Star>();
