@@ -382,9 +382,21 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 7841008782681731268, guid: 42912d8adc2921c4a8672918f12d72e0, type: 3}
+      propertyPath: moonScale
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7841008782681731268, guid: 42912d8adc2921c4a8672918f12d72e0, type: 3}
+      propertyPath: starScale
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7841008782681731268, guid: 42912d8adc2921c4a8672918f12d72e0, type: 3}
       propertyPath: moonPrefab
       value: 
       objectReference: {fileID: 1360727041865044879, guid: 7c38e70ac8031614f87670ffbef83231, type: 3}
+    - target: {fileID: 7841008782681731268, guid: 42912d8adc2921c4a8672918f12d72e0, type: 3}
+      propertyPath: planetScale
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 7841008782681731268, guid: 42912d8adc2921c4a8672918f12d72e0, type: 3}
       propertyPath: mainPlanetPrefab
       value: 
@@ -595,7 +607,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.01
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -674,3 +686,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1f1ff30458b7d2499f2580080c18e5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  viewPointDefault: {x: 0, y: -1, z: 1}
+  viewPointTarget: {x: 0, y: 0, z: 0}
+  viewPointCurrent: {x: 0, y: 0, z: 0}
+  viewAxisDefault: {x: 0, y: 0, z: 0}
+  viewAxisTarget: {x: 0, y: 0, z: 0}
+  viewAxisCurrent: {x: 0, y: 0, z: 0}
+  zoomSettings:
+  - 0.01
+  - 100
+  - 10
+  - 0.02
+  - 0.99
+  zoomPercent: 0
+  zoomTarget: 0
+  zoomCurrent: 0

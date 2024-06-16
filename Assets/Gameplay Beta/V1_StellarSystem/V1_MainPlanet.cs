@@ -25,7 +25,9 @@ public class V1_MainPlanet : MonoBehaviour
 	private void VisualUpdate()
 	{
 		transform.localPosition = new Vector3(0, 0, data.distance);
-		sphere.transform.localScale = data.radius * Vector3.one;
+		sphere.transform.localScale = data.radius * Vector3.one *
+			V1_StellarSystemController.instance.planetScale *
+			V1_StellarUnits.earthRadius_km / V1_StellarUnits.AU_km;
 	}
 
 	public void RandomizeProperties()
@@ -64,6 +66,7 @@ public class MainPlanetData
 
 	public MainPlanetData Default()
 	{
+		name = "default main planet";
 		mass = 1;
 		radius = 1;
 		distance = 1;

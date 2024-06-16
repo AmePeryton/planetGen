@@ -14,10 +14,16 @@ public class V1_StellarSystemController : V1_SceneController
 	public List<V1_OtherPlanet> otherplanets;
 	public float[] habitableZone;
 
+	[Header("Prefabs")]
 	public GameObject starPrefab;
 	public GameObject mainPlanetPrefab;
 	public GameObject otherPlanetPrefab;
 	public GameObject moonPrefab;
+
+	[Header("Visual Scales")]
+	public float starScale;
+	public float planetScale;
+	public float moonScale;
 
 	private void Awake()
 	{
@@ -137,7 +143,7 @@ public class V1_StellarSystemController : V1_SceneController
 		V1_MainPlanet newMainPlanet = newMainPlanetObj.GetComponent<V1_MainPlanet>();
 		newMainPlanet.RandomizeProperties();
 		mainPlanet = newMainPlanet;
-		int numMoons = UnityEngine.Random.Range(0, 2);
+		int numMoons = UnityEngine.Random.Range(0, 3);
 		for (int i = 0; i < numMoons; i++)
 		{
 			GameObject newMoonObj = Instantiate(moonPrefab, mainPlanet.transform);
@@ -147,7 +153,7 @@ public class V1_StellarSystemController : V1_SceneController
 		}
 
 		// New Planets
-		int numPlanets = UnityEngine.Random.Range(1, 4);
+		int numPlanets = UnityEngine.Random.Range(0, 4);
 		for (int i = 0; i < numPlanets; i++)
 		{
 			GameObject newPlanetObj = Instantiate(otherPlanetPrefab);
@@ -155,7 +161,7 @@ public class V1_StellarSystemController : V1_SceneController
 			newPlanet.RandomizeProperties();
 			otherplanets.Add(newPlanet);
 
-			numMoons = UnityEngine.Random.Range(0, 2);
+			numMoons = UnityEngine.Random.Range(0, 3);
 			for (int j = 0; j < numMoons; j++)
 			{
 				GameObject newMoonObj = Instantiate(moonPrefab, newPlanetObj.transform);
@@ -177,7 +183,7 @@ public class V1_StellarSystemSaveData : V1_GameSaveData
 	public V1_StellarSystemSaveData(V1_GameSaveData generic) : base(generic.name)
 	{
 		//name = generic.name;
-		dateCreated = generic.dateCreated;
+		//dateCreated = generic.dateCreated;
 		dateModified = generic.dateModified;
 		gameState = GameState.StellarSystem;
 

@@ -6,9 +6,12 @@ using UnityEngine.UI;
 
 public class StatLineError : StatLine
 {
+	public TextMeshProUGUI typeLabel;
 	public override void InitDisplay()
 	{
 		base.InitDisplay();
+
+		typeLabel.text = "Unsupported type: " + field.FieldType.ToString();
 
 		UpdateDisplay();
 	}

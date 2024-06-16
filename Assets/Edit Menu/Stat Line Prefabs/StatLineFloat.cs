@@ -30,8 +30,6 @@ public class StatLineFloat : StatLine
 			field.SetValue(focus, value);
 			UpdateDisplay();
 		});
-
-		//InvokeRepeating(nameof(UpdateDisplay), updatePeriod, updatePeriod);
 	}
 
 	public override void UpdateDisplay()

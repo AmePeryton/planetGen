@@ -13,13 +13,14 @@ public class FocusLine : MonoBehaviour
 
 	public void InitDisplay()
 	{
+		// Set text labels
 		labelType.text = focus.GetType().ToString();
 		labelName.text = focus.GetName();
 	}
 
 	public void SelectFocus()
 	{
+		// Set this menu editable instance as the current focus
 		EditMenu.instance.NewFocus(focus);
-		GetComponent<Button>().interactable = false;
 	}
 }

@@ -17,7 +17,7 @@ public class MenuEditableAttribute : PropertyAttribute
 		this.displayName = displayName;
 		this.editable = true;
 		this.min = 0;
-		this.max = 0;
+		this.max = 1;
 	}
 
 	public MenuEditableAttribute(string displayName, bool editable)
@@ -25,7 +25,7 @@ public class MenuEditableAttribute : PropertyAttribute
 		this.displayName = displayName;
 		this.editable = editable;
 		this.min = 0;
-		this.max = 0;
+		this.max = 1;
 	}
 
 	public MenuEditableAttribute(string displayName, float min, float max)

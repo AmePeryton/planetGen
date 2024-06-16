@@ -24,12 +24,6 @@ public abstract class StatLine : MonoBehaviour
 		// Enable or disable inputs
 		SetEditability(attribute.editable);
 		// Update display every x seconds
-		InvokeRepeating(nameof(UpdateDisplay), 0.1f, 0.1f);
+		InvokeRepeating(nameof(UpdateDisplay), 0f, 0.1f);
 	}
-
-	/* TODO
-		* fix statline resizing for different resolutions
-		* make focus lines reload on new object instantiation
-		* add click selection for focus
-	*/
 }

@@ -8,7 +8,7 @@ public class V1_StellarUnits
 	public const float m_km = 1/1000;
 	public const float earthRadius_km = 6378.14f;	// at equator
 	public const float solarRadius_km = 695700f;
-	public const float AU_km = 695700f;
+	public const float AU_km = 149597870;
 
 	// Mass
 	public const float g_kg = 1/1000;
