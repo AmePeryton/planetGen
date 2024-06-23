@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class V1_Star : MonoBehaviour
+public class V1_StarController : MonoBehaviour
 {
 	public StarData data;
 	public GameObject sphere;
@@ -26,7 +26,7 @@ public class V1_Star : MonoBehaviour
 	{
 		//sphere.transform.localScale = Mathf.Pow(data.mass, 0.74f) * Vector3.one;
 		sphere.transform.localScale = data.radius * Vector3.one * 
-			V1_StellarSystemController.instance.starScale * 
+			V1_StellarSystemController.instance.gsd.starScale * 
 			V1_StellarUnits.solarRadius_km / V1_StellarUnits.AU_km;
 		sphere.GetComponent<Renderer>().material.color = data.color;
 	}

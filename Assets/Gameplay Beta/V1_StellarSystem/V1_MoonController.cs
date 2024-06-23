@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class V1_OtherPlanet : MonoBehaviour
+public class V1_MoonController : MonoBehaviour
 {
-	public OtherPlanetData data;
+	public MoonData data;
 	public GameObject sphere;
 
 	private void Awake()
@@ -26,7 +26,7 @@ public class V1_OtherPlanet : MonoBehaviour
 	{
 		transform.localPosition = new Vector3(0, 0, data.distance);
 		sphere.transform.localScale = data.radius * Vector3.one *
-			V1_StellarSystemController.instance.planetScale *
+			V1_StellarSystemController.instance.gsd.moonScale *
 			V1_StellarUnits.earthRadius_km / V1_StellarUnits.AU_km;
 	}
 
@@ -38,37 +38,33 @@ public class V1_OtherPlanet : MonoBehaviour
 }
 
 [Serializable]
-public class OtherPlanetData
+public class MoonData
 {
-	public float mass;		// in Earth Masses
-	public float radius;	// in Earth Radii
+	public float mass;      // in Earth Masses
+	public float radius;    // in Earth Radii
 	public float distance;  // in AU
-	public List<MoonData> moons;
 
-	public OtherPlanetData()
+	public MoonData()
 	{
 		mass = 0;
 		radius = 0;
 		distance = 0;
-		moons = new List<MoonData>();
 	}
 
-	public OtherPlanetData Randomize()
+	public MoonData Randomize()
 	{
-		mass = 0.8f * UnityEngine.Random.value + 0.2f;
-		radius = 0.5f * UnityEngine.Random.value + 0.1f;
-		distance = 4f * UnityEngine.Random.value + 1f;
-		//moons = new List<V1_Moon>();
+		mass = 0.1f * UnityEngine.Random.value + 0f;
+		radius = 0.2f * UnityEngine.Random.value + 0.1f;
+		distance = 0.1f * UnityEngine.Random.value + 0.01f;
 		return this;
 	}
 
-	// Earth's current properties
-	public OtherPlanetData Default()
+	// Earth's Moon's current properties
+	public MoonData Default()
 	{
-		mass = 1;
-		radius = 1;
-		distance = 1;
+		mass = 0.0123032f;
+		radius = 0.2728069f;
+		distance = 0.00256955529f;
 		return this;
-		//moons = new List<V1_Moon>();
 	}
 }

@@ -5,38 +5,27 @@ using UnityEngine;
 
 public class V1_LoadGameListItem : MonoBehaviour
 {
+	public V1_SaveData_Common commonData;
 	public TextMeshProUGUI nameText;
 	public TextMeshProUGUI dateCreatedText;
 	public TextMeshProUGUI dateModifiedText;
-	public string fileName;
-	public string dateCreated;
-	public string dateModified;
-	public int gameState;
-
-	private void Awake()
-	{
-		
-	}
-
-	public void Instantiate(string name, string dateCreated, string dateModified)
-	{
-		this.fileName = name;
-		this.dateCreated = dateCreated;
-		this.dateModified = dateModified;
-
-		nameText.text = name;
-		dateCreatedText.text = dateCreated;
-		dateModifiedText.text = dateModified;
-	}
 
 	public void Load()
 	{
-		V1_GameSaveDataManager.instance.LoadGame(fileName);
+		// Pass to main menu controller for organizational reasons
+		V1_MainMenuController.instance.LoadGame(commonData.name);
 	}
 
 	public void Delete()
 	{
-		V1_FileHandler.DeleteFile(Application.dataPath + "/Gameplay Beta/V1_GameFiles/" + fileName + ".save");
+		V1_FileHandler.DeleteFile(Application.dataPath + "/Gameplay Beta/V1_GameFiles/" + commonData.name + ".save");
 		V1_LoadMenuController.instance.UpdateList();
+	}
+
+	public void Instantiate()
+	{
+		nameText.text = commonData.name;
+		dateCreatedText.text = commonData.dateCreated;
+		dateModifiedText.text = commonData.dateModified;
 	}
 }

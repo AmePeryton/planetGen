@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class V1_MainPlanet : MonoBehaviour
+public class V1_MainPlanetController : MonoBehaviour
 {
 	public MainPlanetData data;
 	public GameObject sphere;
@@ -26,7 +26,7 @@ public class V1_MainPlanet : MonoBehaviour
 	{
 		transform.localPosition = new Vector3(0, 0, data.distance);
 		sphere.transform.localScale = data.radius * Vector3.one *
-			V1_StellarSystemController.instance.planetScale *
+			V1_StellarSystemController.instance.gsd.planetScale *
 			V1_StellarUnits.earthRadius_km / V1_StellarUnits.AU_km;
 	}
 

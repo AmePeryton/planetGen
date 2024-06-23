@@ -41,15 +41,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 3489410587132474510}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f39321afb06d054896405fb74897d54, type: 3}
+  m_Script: {fileID: 11500000, guid: 493c60e3eaeb0ba45b5e66c6b0135576, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   data:
+    name: initial main planet
     mass: 0
     radius: 0
     distance: 0
     moons: []
-    name: initial main planet
   sphere: {fileID: 5681668004946863710}
 --- !u!1 &5681668004946863710
 GameObject:

@@ -122,9 +122,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5865162621453042523}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13fa3ce3af74bce45a350a0854aac930, type: 3}
+  m_Script: {fileID: 11500000, guid: 94adeb89f9ae2a644b9b77a35cc6e0ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mass: 0
-  age: 0
+  data:
+    age: 0
+    mass: 0
+    temperature: 0
+    radius: 0
+    luminosity: 0
+    color: {r: 0, g: 0, b: 0, a: 1}
   sphere: {fileID: 4434541052856717806}

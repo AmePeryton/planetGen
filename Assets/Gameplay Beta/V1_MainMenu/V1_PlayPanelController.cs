@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using TMPro;
 using System;
+using TMPro;
+using UnityEngine;
 
-public class V1_PlayPanelController : MonoBehaviour, ISceneSavable
+public class V1_PlayPanelController : MonoBehaviour
 {
 	public GameObject newSavePanel;
 	public TMP_InputField saveNameInput;
@@ -26,25 +23,17 @@ public class V1_PlayPanelController : MonoBehaviour, ISceneSavable
 		newSavePanel.SetActive(false);
 	}
 
-	public void NewSave()
+	public void NewGame()
 	{
-		V1_GameSaveDataManager.instance.NewGame(saveNameInput.text);
-	}
-
-	public void LoadSceneData(V1_GameSaveData data)
-	{
-	}
-
-	public void SaveSceneData(ref V1_GameSaveData data)
-	{
-		if (saveNameInput.text.Length > 0)
+		// Pass to main menu controller for organizational reasons
+		if (saveNameInput.text != string.Empty)
 		{
-			data.name = saveNameInput.text;
+			V1_MainMenuController.instance.NewGame(saveNameInput.text);
 		}
 		else
 		{
-			data.name = "save";
+			// Give a default but unique save name if the field is empty
+			V1_MainMenuController.instance.NewGame("Unnamed Save " + DateTime.Now.ToString("yyyy-MM-dd"));
 		}
-		data.dateCreated = DateTime.Now.ToString("yyyy-MM-dd");
 	}
 }

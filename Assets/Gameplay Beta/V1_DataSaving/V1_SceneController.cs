@@ -1,17 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class V1_SceneController : MonoBehaviour
 {
 	public static V1_SceneController instance { get; private set; }
 
+	public GameObject saveDataManagerPrefab;
+
 	protected void SceneControllerInit()
 	{
 		// Singleton line
 		if (instance != null) { Debug.LogWarning(GetType().Name + " already present in scene!"); } instance = this;
+
+		// If no save data manager present, spawn one
+		if (V1_SaveDataManager.instance == null)
+		{
+			Debug.LogWarning("V1_SaveDataManager not found! Creating new instance");
+			Instantiate(saveDataManagerPrefab);
+		}
 	}
 
-	public virtual void LoadData() { } // Load data from a file to the scene
-	public virtual void SaveData() { } // Save the scene's data to a file//
+	public virtual void LoadScene() { }	// Load data from the SDM to objects in the scene
+	public virtual void SaveScene() { }	// Save data from scene objects to the SDM
+	public virtual void NewScene() { }	// On entering the scene from another scene
 }

@@ -390,21 +390,9 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7841008782681731268, guid: 42912d8adc2921c4a8672918f12d72e0, type: 3}
-      propertyPath: moonPrefab
-      value: 
-      objectReference: {fileID: 1360727041865044879, guid: 7c38e70ac8031614f87670ffbef83231, type: 3}
-    - target: {fileID: 7841008782681731268, guid: 42912d8adc2921c4a8672918f12d72e0, type: 3}
       propertyPath: planetScale
       value: 1000
       objectReference: {fileID: 0}
-    - target: {fileID: 7841008782681731268, guid: 42912d8adc2921c4a8672918f12d72e0, type: 3}
-      propertyPath: mainPlanetPrefab
-      value: 
-      objectReference: {fileID: 3489410587132474510, guid: 2eebbd6bf63646b4ca5324185f04cca6, type: 3}
-    - target: {fileID: 7841008782681731268, guid: 42912d8adc2921c4a8672918f12d72e0, type: 3}
-      propertyPath: otherPlanetPrefab
-      value: 
-      objectReference: {fileID: 3489410587132474510, guid: 5f29d945d483da943a84e3702f533ffa, type: 3}
     - target: {fileID: 7841008782681731268, guid: 42912d8adc2921c4a8672918f12d72e0, type: 3}
       propertyPath: saveData.gameState
       value: 1
@@ -635,7 +623,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1990306298}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -686,12 +674,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1f1ff30458b7d2499f2580080c18e5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewPointDefault: {x: 0, y: -1, z: 1}
+  viewPointDefault: {x: 0, y: 0, z: 0}
   viewPointTarget: {x: 0, y: 0, z: 0}
   viewPointCurrent: {x: 0, y: 0, z: 0}
-  viewAxisDefault: {x: 0, y: 0, z: 0}
+  viewAxisDefault: {x: 0, y: -1, z: 1}
   viewAxisTarget: {x: 0, y: 0, z: 0}
   viewAxisCurrent: {x: 0, y: 0, z: 0}
+  offsetAngleDefault: {x: 0, y: 0, z: 0}
+  offsetAngleTarget: {x: 0, y: 0, z: 0}
+  offsetAngleCurrent: {x: 0, y: 0, z: 0}
   zoomSettings:
   - 0.01
   - 100

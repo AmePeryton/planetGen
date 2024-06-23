@@ -7,12 +7,17 @@ public class V1_StellarCamera : MonoBehaviour
 	[Header("View Point")]
 	public Vector3 viewPointDefault;	// Default position to point at
 	public Vector3 viewPointTarget;		// Default position to point at
-	public Vector3 viewPointCurrent;    // Current position pointed at
+	public Vector3 viewPointCurrent;	// Current position pointed at
 
 	[Header("View Axis")]
 	public Vector3 viewAxisDefault;	// Default direction of viewpoint offset from camera
 	public Vector3 viewAxisTarget;	// Target direction of viewpoint offset from camera
 	public Vector3 viewAxisCurrent; // Current direction of viewpoint offset from camera
+
+	[Header("Offset Angle")]
+	public Vector3 offsetAngleDefault;
+	public Vector3 offsetAngleTarget;
+	public Vector3 offsetAngleCurrent;
 
 	[Header("Zoom")]
 	public float[] zoomSettings = new float[5];	// closest, farthest, default (real), step (percent), smoothing
@@ -62,14 +67,16 @@ public class V1_StellarCamera : MonoBehaviour
 			// Rotate horizontally
 			viewAxisTarget = Quaternion.AngleAxis(10 * Input.GetAxis("Mouse X"), Vector3.up) * viewAxisTarget;
 			// Rotate vertically
-			viewAxisTarget = Quaternion.AngleAxis(4 * Input.GetAxis("Mouse Y"), Vector3.Cross(viewAxisTarget, Vector3.up)) * viewAxisTarget;
+			viewAxisTarget = Quaternion.AngleAxis(6 * Input.GetAxis("Mouse Y"), Vector3.Cross(viewAxisTarget, Vector3.up)) * viewAxisTarget;
 			// Prevent rotation from being straight up ordown (gimbal lock)
 			viewAxisTarget.y = Mathf.Clamp(viewAxisTarget.y, -0.95f, 0.95f);
 			// Normalize view axis
 			viewAxisTarget.Normalize();
 		}
 
-		viewAxisCurrent = Vector3.Lerp(viewAxisTarget, viewAxisCurrent, 0.98f).normalized;
+		viewAxisCurrent.x = Vector3.Slerp(viewAxisTarget, viewAxisCurrent, 0.98f).normalized.x;
+		viewAxisCurrent.y = Mathf.Lerp(viewAxisTarget.y, viewAxisCurrent.y, 0.98f);
+		viewAxisCurrent.z = Vector3.Slerp(viewAxisTarget, viewAxisCurrent, 0.98f).normalized.z;
 	}
 
 	// Update zooming variables based on scroll

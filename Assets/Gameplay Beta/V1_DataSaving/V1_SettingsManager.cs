@@ -10,8 +10,8 @@ using UnityEngine.Rendering;
 public class V1_SettingsManager : MonoBehaviour
 {
 	public static V1_SettingsManager instance { get; private set; }
-	public List<ISettingsSavable> savableObjects;
 	public V1_SettingsData settingsData;
+	public List<ISettingsSavable> savableObjects;
 
 	private void Awake()
 	{
@@ -64,7 +64,7 @@ public class V1_SettingsManager : MonoBehaviour
 }
 
 // The actual settings data to be saved
-[System.Serializable]
+[Serializable]
 public class V1_SettingsData
 {
 	public float volume;

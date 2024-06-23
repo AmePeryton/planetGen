@@ -1,29 +1,26 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 // New combined manager that handles save/loads AND the objects in the scene
 public class V1_StellarSystemController : V1_SceneController
 {
 	public static new V1_StellarSystemController instance { get; private set; }
-	public V1_StellarSystemSaveData saveData;
-	public V1_Star star;
-	public V1_MainPlanet mainPlanet;
-	public List<V1_OtherPlanet> otherplanets;
-	public float[] habitableZone;
+
+	[Header("Savable Data")]
+	public V1_SaveData_StellarSystem stellarSystemData;
+	public V1_GameStateData_StellarSystem gsd;
+
+	[Header("Controllers")]
+	public V1_StarController starController;
+	public V1_MainPlanetController mainPlanetController;
+	public List<V1_OtherPlanetController> otherplanetControllers;
 
 	[Header("Prefabs")]
 	public GameObject starPrefab;
 	public GameObject mainPlanetPrefab;
 	public GameObject otherPlanetPrefab;
 	public GameObject moonPrefab;
-
-	[Header("Visual Scales")]
-	public float starScale;
-	public float planetScale;
-	public float moonScale;
 
 	private void Awake()
 	{
@@ -34,161 +31,143 @@ public class V1_StellarSystemController : V1_SceneController
 
 	void Start()
 	{
-		// Return to menu if game is opened in stellar system scene
-		if (V1_GameSaveDataManager.instance == null)
+		// NEW DATA FLOW
+		if (V1_SaveDataManager.instance.data.common.gameState == GameState.StellarSystem)
 		{
-			Debug.LogWarning("V1_GameSaveDataManager not found! Returning to menu");
-			SceneManager.LoadScene("V1_SCENE_MainMenu", LoadSceneMode.Single);
-			return;
-		}
-
-		if (V1_GameSaveDataManager.instance.newGame)
-		{
-			NewGame();
+			// If save data is from this scene, load into game objects
+			LoadScene();
 		}
 		else
 		{
-			LoadData();
+			// If save data is from a different scene, create new game state data and new game
+			NewScene();
 		}
 	}
 
-	// Create new data without loading existing data
-	public void NewGame()
+	public override void LoadScene()
 	{
-		saveData = new V1_StellarSystemSaveData(V1_GameSaveDataManager.instance.genericSaveData);
-		NewStellarSystem();
-	}
-
-	public override void LoadData()
-	{
-		saveData = V1_FileHandler.Load<V1_StellarSystemSaveData>
-			(Application.dataPath + "/Gameplay Beta/V1_GameFiles/" + V1_GameSaveDataManager.instance.genericSaveData.name + ".save");
+		stellarSystemData = V1_SaveDataManager.instance.data.stellarSystem;
+		gsd = V1_SaveDataManager.instance.data.gsd_stellarSystem;
 
 		// Spawn star as defined in the save data
 		GameObject newStarObj = Instantiate(starPrefab);
-		V1_Star newStar = newStarObj.GetComponent<V1_Star>();
-		newStar.data = saveData.starData;
-		star = newStar;
+		starController = newStarObj.GetComponent<V1_StarController>();
+		starController.data = stellarSystemData.starData;
 
 		// Spawn main planet as defined in the save data
 		GameObject newMainPlanetObj = Instantiate(mainPlanetPrefab);
-		V1_MainPlanet newMainPlanet = newMainPlanetObj.GetComponent<V1_MainPlanet>();
-		newMainPlanet.data = saveData.mainPlanetData;
-		mainPlanet = newMainPlanet;
-		foreach (MoonData moon in mainPlanet.data.moons)
+		mainPlanetController = newMainPlanetObj.GetComponent<V1_MainPlanetController>();
+		mainPlanetController.data = stellarSystemData.mainPlanetData;
+		foreach (MoonData moon in stellarSystemData.mainPlanetData.moons)
 		{
-			GameObject newMoonObj = Instantiate(moonPrefab, mainPlanet.transform);
-			V1_Moon newMoon = newMoonObj.GetComponent<V1_Moon>();
+			GameObject newMoonObj = Instantiate(moonPrefab, mainPlanetController.transform);
+			V1_MoonController newMoon = newMoonObj.GetComponent<V1_MoonController>();
 			newMoon.data = moon;
 		}
 
 		// Spawn other planets as listed in the save data
-		foreach (OtherPlanetData otherPlanet in saveData.otherPlanetData)
+		foreach (OtherPlanetData otherPlanet in stellarSystemData.otherPlanetsData)
 		{
 			GameObject newOtherPlanetObj = Instantiate(otherPlanetPrefab);
-			V1_OtherPlanet newOtherPlanet = newOtherPlanetObj.GetComponent<V1_OtherPlanet>();
+			V1_OtherPlanetController newOtherPlanet = newOtherPlanetObj.GetComponent<V1_OtherPlanetController>();
 			newOtherPlanet.data = otherPlanet;
-			otherplanets.Add(newOtherPlanet);
-			foreach (MoonData moon in newOtherPlanet.data.moons)
+			otherplanetControllers.Add(newOtherPlanet);
+			foreach (MoonData moon in otherPlanet.moons)
 			{
 				GameObject newMoonObj = Instantiate(moonPrefab, newOtherPlanet.transform);
-				V1_Moon newMoon = newMoonObj.GetComponent<V1_Moon>();
+				V1_MoonController newMoon = newMoonObj.GetComponent<V1_MoonController>();
 				newMoon.data = moon;
 			}
 		}
 	}
 
-	public override void SaveData()
+	public override void SaveScene()
 	{
-		V1_GameSaveDataManager.instance.genericSaveData.dateModified = DateTime.Now.ToString("yyyy-MM-dd");
-		saveData = new V1_StellarSystemSaveData(V1_GameSaveDataManager.instance.genericSaveData);
-
-		// Save star data from the star object
-		saveData.starData = star.data;
-
-		// Save main planet data from the main planet object
-		saveData.mainPlanetData = mainPlanet.data;
-		//foreach (MoonData moon in mainPlanet.data.moons)
-		//{
-		//	V1_Moon newMoon = newMoonObj.GetComponent<V1_Moon>();
-		//	newMoon.data = moon;
-		//}
-
-		// Save other planet data from other planet objects
-		foreach (V1_OtherPlanet otherPlanet in otherplanets)
-		{
-			saveData.otherPlanetData.Add(otherPlanet.data);
-		}
-
-		V1_FileHandler.Save(saveData, Application.dataPath + "/Gameplay Beta/V1_GameFiles/" + saveData.name + ".save");
+		V1_SaveDataManager.instance.SaveData();
 	}
 
+	public override void NewScene()
+	{
+		V1_SaveDataManager.instance.data.common.gameState = GameState.StellarSystem;
+		V1_SaveDataManager.instance.data.stellarSystem = stellarSystemData;
+		V1_SaveDataManager.instance.data.gsd_stellarSystem = gsd;
+		NewStellarSystem();
+	}
+
+	[ContextMenu("New Stellar System")]
 	public void NewStellarSystem()
 	{
+		// Destroy old objects and clear data where necessary
+		if (starController != null)
+		{
+			Destroy(starController.gameObject);
+		}
+		if (mainPlanetController != null)
+		{
+			Destroy(mainPlanetController.gameObject);
+		}
+		foreach (V1_OtherPlanetController otherPlanet in otherplanetControllers)
+		{
+			Destroy(otherPlanet.gameObject);
+		}
+		otherplanetControllers.Clear();
+		stellarSystemData.otherPlanetsData.Clear();
+
 		// New Star
 		GameObject newStarObj = Instantiate(starPrefab);
-		V1_Star newStar = newStarObj.GetComponent<V1_Star>();
-		newStar.RandomizeProperties();
-		star = newStar;
-
-		// Calculate habitable zone
-		habitableZone = new float[]
-		{
-			Mathf.Sqrt(star.data.luminosity/1.1f),
-			Mathf.Sqrt(star.data.luminosity/0.53f)
-		};
+		starController = newStarObj.GetComponent<V1_StarController>();
+		starController.RandomizeProperties();
+		stellarSystemData.starData = starController.data;
 
 		// New Main Planet
 		GameObject newMainPlanetObj = Instantiate(mainPlanetPrefab);
-		V1_MainPlanet newMainPlanet = newMainPlanetObj.GetComponent<V1_MainPlanet>();
-		newMainPlanet.RandomizeProperties();
-		mainPlanet = newMainPlanet;
+		mainPlanetController = newMainPlanetObj.GetComponent<V1_MainPlanetController>();
+		mainPlanetController.RandomizeProperties();
+		stellarSystemData.mainPlanetData = mainPlanetController.data;
+
 		int numMoons = UnityEngine.Random.Range(0, 3);
 		for (int i = 0; i < numMoons; i++)
 		{
-			GameObject newMoonObj = Instantiate(moonPrefab, mainPlanet.transform);
-			V1_Moon newMoon = newMoonObj.GetComponent<V1_Moon>();
+			GameObject newMoonObj = Instantiate(moonPrefab, mainPlanetController.transform);
+			V1_MoonController newMoon = newMoonObj.GetComponent<V1_MoonController>();
 			newMoon.RandomizeProperties();
-			mainPlanet.data.moons.Add(newMoon.data);
+			mainPlanetController.data.moons.Add(newMoon.data);
 		}
 
 		// New Planets
-		int numPlanets = UnityEngine.Random.Range(0, 4);
+		int numPlanets = UnityEngine.Random.Range(1, 4);
 		for (int i = 0; i < numPlanets; i++)
 		{
-			GameObject newPlanetObj = Instantiate(otherPlanetPrefab);
-			V1_OtherPlanet newPlanet = newPlanetObj.GetComponent<V1_OtherPlanet>();
-			newPlanet.RandomizeProperties();
-			otherplanets.Add(newPlanet);
+			GameObject newOtherPlanetObj = Instantiate(otherPlanetPrefab);
+			V1_OtherPlanetController newOtherPlanetController = newOtherPlanetObj.GetComponent<V1_OtherPlanetController>();
+			otherplanetControllers.Add(newOtherPlanetController);
+			newOtherPlanetController.RandomizeProperties();
+			stellarSystemData.otherPlanetsData.Add(newOtherPlanetController.data);
 
 			numMoons = UnityEngine.Random.Range(0, 3);
 			for (int j = 0; j < numMoons; j++)
 			{
-				GameObject newMoonObj = Instantiate(moonPrefab, newPlanetObj.transform);
-				V1_Moon newMoon = newMoonObj.GetComponent<V1_Moon>();
+				GameObject newMoonObj = Instantiate(moonPrefab, newOtherPlanetObj.transform);
+				V1_MoonController newMoon = newMoonObj.GetComponent<V1_MoonController>();
 				newMoon.RandomizeProperties();
-				newPlanet.data.moons.Add(newMoon.data);
+				newOtherPlanetController.data.moons.Add(newMoon.data);
 			}
 		}
 	}
 }
 
 [Serializable]
-public class V1_StellarSystemSaveData : V1_GameSaveData
+public class V1_GameStateData_StellarSystem : V1_GameStateData
 {
-	public StarData starData;
-	public MainPlanetData mainPlanetData;
-	public List<OtherPlanetData> otherPlanetData;
+	[Header("Visual Scales")]
+	public float starScale;
+	public float planetScale;
+	public float moonScale;
 
-	public V1_StellarSystemSaveData(V1_GameSaveData generic) : base(generic.name)
+	public V1_GameStateData_StellarSystem()
 	{
-		//name = generic.name;
-		//dateCreated = generic.dateCreated;
-		dateModified = generic.dateModified;
-		gameState = GameState.StellarSystem;
-
-		starData = new StarData();
-		mainPlanetData = new MainPlanetData();
-		otherPlanetData = new List<OtherPlanetData>();
+		starScale = 1.0f;
+		planetScale = 1.0f;
+		moonScale = 1.0f;
 	}
 }

@@ -27,13 +27,13 @@ public class V1_PauseMenu : MonoBehaviour
 
 	public void SaveGame()
 	{
-		V1_SceneController.instance.SaveData();
+		//V1_SceneController.instance.SaveDataOLD();
+		V1_SceneController.instance.SaveScene();
 	}
 
 	public void MainMenu()
 	{
-		Destroy(V1_SettingsManager.instance.gameObject);
-		Destroy(V1_GameSaveDataManager.instance.gameObject);
+		//Destroy(V1_SettingsManager.instance.gameObject);
 		SceneManager.LoadScene("V1_SCENE_MainMenu", LoadSceneMode.Single);
 	}
 

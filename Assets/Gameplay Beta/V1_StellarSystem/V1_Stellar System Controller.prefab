@@ -43,14 +43,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49c4f2c62f3d62142bf1d8eda4b8ad85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveData:
-    name: 
-    dateCreated: 
-    dateModified: 
-    gameState: 0
-    starData: []
-    planetData: []
+  saveDataManagerPrefab: {fileID: 2202273554443299788, guid: 7d5c6bc9e7dc665478c342ce6248266a, type: 3}
+  stellarSystemData:
+    starData:
+      age: 0
+      mass: 0
+      temperature: 0
+      radius: 0
+      luminosity: 0
+      color: {r: 0, g: 0, b: 0, a: 1}
+    mainPlanetData:
+      name: initial main planet
+      mass: 0
+      radius: 0
+      distance: 0
+      moons: []
+    otherPlanetData: []
+  gsd:
+    starScale: 100
+    planetScale: 10000
+    moonScale: 10000
+  starController: {fileID: 0}
+  mainPlanetController: {fileID: 0}
+  otherplanets: []
   starPrefab: {fileID: 5865162621453042523, guid: 0cc4de1211df1a24a8b7deeb8a10319f, type: 3}
-  planetPrefab: {fileID: 3489410587132474510, guid: 5f29d945d483da943a84e3702f533ffa, type: 3}
-  stars: []
-  planets: []
+  mainPlanetPrefab: {fileID: 3489410587132474510, guid: 2eebbd6bf63646b4ca5324185f04cca6, type: 3}
+  otherPlanetPrefab: {fileID: 3489410587132474510, guid: 5f29d945d483da943a84e3702f533ffa, type: 3}
+  moonPrefab: {fileID: 1360727041865044879, guid: 7c38e70ac8031614f87670ffbef83231, type: 3}
