@@ -16,16 +16,22 @@ public class V1_SaveDataManager : MonoBehaviour
 		DefaultData();
 	}
 
+	// Create blank data
 	public void NewData(string name)
 	{
-		// Create blank data
 		data = new V1_FullSaveData(name);
 	}
 
+	// Create default data
 	public void DefaultData()
 	{
-		// Create default data
 		data = new V1_FullSaveData();
+	}
+
+	// Load data from a file
+	public void LoadData(string name)
+	{
+		data = V1_FileHandler.Load<V1_FullSaveData>(Application.dataPath + "/Gameplay Beta/V1_GameFiles/" + name + ".save");
 	}
 
 	// Save data to a file
@@ -38,14 +44,8 @@ public class V1_SaveDataManager : MonoBehaviour
 		}
 		else
 		{
-			Debug.Log("Null Data!");
+			Debug.Log("Null Save Data!");
 		}
-	}
-
-	// Save data from a file
-	public void LoadData(string name)
-	{
-		data = V1_FileHandler.Load<V1_FullSaveData>(Application.dataPath + "/Gameplay Beta/V1_GameFiles/" + name + ".save");
 	}
 }
 

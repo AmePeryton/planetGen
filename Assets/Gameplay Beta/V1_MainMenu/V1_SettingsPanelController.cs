@@ -1,39 +1,58 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class V1_SettingsPanelController : MonoBehaviour, ISettingsSavable
+public class V1_SettingsPanelController : MonoBehaviour
 {
-	public float volume;
 	public Slider volumeSlider;
-
-	private void Awake()
-	{
-		volumeSlider.onValueChanged.AddListener((v) => {
-			volume = v;
-		});
-	}
-
-	public void LoadSettingsData(V1_SettingsData data)
-	{
-		volume = data.volume;
-		volumeSlider.value = volume;
-	}
-
-	public void SaveSettingsData(ref V1_SettingsData data)
-	{
-		data.volume = volume;
-	}
-
-	public void ButtonApply()
-	{
-		V1_SettingsManager.instance.SaveSettings();
-	}
+	//public Toggle autosaveToggle;
 
 	private void OnEnable()
 	{
-		V1_SettingsManager.instance.LoadSettings();
+		// Set UI elements to reflect data
+		LoadSettings();
+	}
+
+	void Start()
+	{
+		// Subscribe UI elements to value changes
+		volumeSlider.onValueChanged.AddListener((v) => {
+			V1_SettingsManager.instance.data.volume = v;
+		});
+	}
+
+	// Update UI elements to reflect settings data
+	public void LoadSettings()
+	{
+		volumeSlider.value = V1_SettingsManager.instance.data.volume;
+	}
+
+	// Commit settings to file
+	public void SaveSettings()
+	{
+		// Save to file
+		V1_SettingsManager.instance.SaveSettingsData();
+	}
+
+	// Reload settings data from file
+	public void DiscardSettings()
+	{
+		// Override the modified settings with the data in the file
+		V1_SettingsManager.instance.LoadSettingsData();
+	}
+
+	public void ButtonAccept()
+	{
+		// Save to file
+		SaveSettings();
+		// Return to title screen
+		V1_MainMenuController.instance.SwitchPanel(0);
+	}
+
+	public void ButtonBack()
+	{
+		// Reload data from settings file
+		DiscardSettings();
+		// Return to title screen
+		V1_MainMenuController.instance.SwitchPanel(0);
 	}
 }

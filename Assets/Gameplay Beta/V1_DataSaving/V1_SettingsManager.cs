@@ -1,65 +1,50 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Linq;
 using System;
-using UnityEngine.Rendering;
+using UnityEngine;
 
 // Handles and stores game settings and config details
 // Does not handle UI elements or save files
 public class V1_SettingsManager : MonoBehaviour
 {
 	public static V1_SettingsManager instance { get; private set; }
-	public V1_SettingsData settingsData;
-	public List<ISettingsSavable> savableObjects;
+	public V1_SettingsData data;
 
 	private void Awake()
 	{
 		DontDestroyOnLoad(gameObject);
 		// Singleton line
 		if (instance != null) { Debug.LogWarning(GetType().Name + " already present in scene!"); } instance = this;
-		LoadSettings();
+		LoadSettingsData();
 	}
 
-	public void NewSettings()
+	// Create new settings data
+	public void NewSettingsData()
 	{
-		settingsData = new V1_SettingsData();
-		SaveSettings();
+		data = new V1_SettingsData();
 	}
 
-	[ContextMenu("LoadSettings")]
-	public void LoadSettings()
+	// Load settings from file
+	public void LoadSettingsData()
 	{
-		settingsData = V1_FileHandler.Load<V1_SettingsData>(Application.dataPath + "/Gameplay Beta/V1_GameFiles/" + "settings" + ".cfg");
-		savableObjects = FindAllSettingsSavableObjects();
-		if (settingsData == null)
+		data = V1_FileHandler.Load<V1_SettingsData>(Application.dataPath + "/Gameplay Beta/V1_GameFiles/settings.cfg");
+		if (data == null)
 		{
-			Debug.Log("Settings data defaulted");
-			NewSettings();
-		}
-
-		foreach (ISettingsSavable savedObject in savableObjects)
-		{
-			savedObject.LoadSettingsData(settingsData);
+			Debug.LogWarning("Settings file not found! Defaulting data");
+			NewSettingsData();
+			SaveSettingsData();
 		}
 	}
 
-	[ContextMenu("SaveSettings")]
-	public void SaveSettings()
+	// Save settings to a file
+	public void SaveSettingsData()
 	{
-		savableObjects = FindAllSettingsSavableObjects();
-		foreach (ISettingsSavable savedObject in savableObjects)
+		if (data != null)
 		{
-			savedObject.SaveSettingsData(ref settingsData);
+			V1_FileHandler.Save(data, Application.dataPath + "/Gameplay Beta/V1_GameFiles/settings.cfg");
 		}
-
-		V1_FileHandler.Save(settingsData, Application.dataPath + "/Gameplay Beta/V1_GameFiles/" + "settings" + ".cfg");
-	}
-
-	private List<ISettingsSavable> FindAllSettingsSavableObjects()
-	{
-		IEnumerable<ISettingsSavable> objects = FindObjectsOfType<MonoBehaviour>().OfType<ISettingsSavable>();
-		return new List<ISettingsSavable>(objects);
+		else
+		{
+			Debug.Log("Null Settings Data!");
+		}
 	}
 }
 

@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   saveDataManagerPrefab: {fileID: 2202273554443299788, guid: 7d5c6bc9e7dc665478c342ce6248266a, type: 3}
+  settingsManagerPrefab: {fileID: 1115683842637015347, guid: 77090d9f5f25e8843a352c265d34fca8, type: 3}
   stellarSystemData:
     starData:
       age: 0
@@ -58,14 +59,14 @@ MonoBehaviour:
       radius: 0
       distance: 0
       moons: []
-    otherPlanetData: []
+    otherPlanetsData: []
   gsd:
     starScale: 100
     planetScale: 10000
     moonScale: 10000
   starController: {fileID: 0}
   mainPlanetController: {fileID: 0}
-  otherplanets: []
+  otherplanetControllers: []
   starPrefab: {fileID: 5865162621453042523, guid: 0cc4de1211df1a24a8b7deeb8a10319f, type: 3}
   mainPlanetPrefab: {fileID: 3489410587132474510, guid: 2eebbd6bf63646b4ca5324185f04cca6, type: 3}
   otherPlanetPrefab: {fileID: 3489410587132474510, guid: 5f29d945d483da943a84e3702f533ffa, type: 3}

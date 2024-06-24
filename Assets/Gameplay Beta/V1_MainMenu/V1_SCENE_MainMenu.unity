@@ -215,7 +215,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d88d266ab6413346b5bd95916504a17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  volume: 0.5
   volumeSlider: {fileID: 1618034560}
 --- !u!1 &49153950
 GameObject:
@@ -1299,10 +1298,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1367498865}
-        m_TargetAssemblyTypeName: V1_MainMenuController, Assembly-CSharp
-        m_MethodName: SwitchPanel
-        m_Mode: 3
+      - m_Target: {fileID: 18409793}
+        m_TargetAssemblyTypeName: V1_SettingsPanelController, Assembly-CSharp
+        m_MethodName: ButtonBack
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2163,7 +2162,7 @@ GameObject:
   - component: {fileID: 765098905}
   - component: {fileID: 765098904}
   m_Layer: 5
-  m_Name: Button_Apply
+  m_Name: Button_Accept
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2235,7 +2234,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 18409793}
         m_TargetAssemblyTypeName: V1_SettingsPanelController, Assembly-CSharp
-        m_MethodName: ButtonApply
+        m_MethodName: ButtonAccept
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3472,67 +3471,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1260616926}
   m_CullTransparentMesh: 1
---- !u!1001 &1271105167
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1115683842637015347, guid: 77090d9f5f25e8843a352c265d34fca8, type: 3}
-      propertyPath: m_Name
-      value: V1_Settings Manager
-      objectReference: {fileID: 0}
-    - target: {fileID: 1115683842637015347, guid: 77090d9f5f25e8843a352c265d34fca8, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8744291270893118014, guid: 77090d9f5f25e8843a352c265d34fca8, type: 3}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 8744291270893118014, guid: 77090d9f5f25e8843a352c265d34fca8, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8744291270893118014, guid: 77090d9f5f25e8843a352c265d34fca8, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8744291270893118014, guid: 77090d9f5f25e8843a352c265d34fca8, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8744291270893118014, guid: 77090d9f5f25e8843a352c265d34fca8, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8744291270893118014, guid: 77090d9f5f25e8843a352c265d34fca8, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8744291270893118014, guid: 77090d9f5f25e8843a352c265d34fca8, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8744291270893118014, guid: 77090d9f5f25e8843a352c265d34fca8, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8744291270893118014, guid: 77090d9f5f25e8843a352c265d34fca8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8744291270893118014, guid: 77090d9f5f25e8843a352c265d34fca8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8744291270893118014, guid: 77090d9f5f25e8843a352c265d34fca8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 77090d9f5f25e8843a352c265d34fca8, type: 3}
 --- !u!114 &1367498865 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7066643169042488768, guid: a1bbfc34335a21841bcc8e2824d397f5, type: 3}
@@ -4910,7 +4848,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Apply
+  m_text: Accept
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1848398ef585e2041aad5c0c413ce9b6, type: 2}
   m_sharedMaterial: {fileID: 2186639226074875318, guid: 1848398ef585e2041aad5c0c413ce9b6, type: 2}
@@ -5513,5 +5451,9 @@ PrefabInstance:
       propertyPath: panels.Array.data[2]
       value: 
       objectReference: {fileID: 1627941878}
+    - target: {fileID: 7066643169042488768, guid: a1bbfc34335a21841bcc8e2824d397f5, type: 3}
+      propertyPath: settingsManagerPrefab
+      value: 
+      objectReference: {fileID: 1115683842637015347, guid: 77090d9f5f25e8843a352c265d34fca8, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1bbfc34335a21841bcc8e2824d397f5, type: 3}

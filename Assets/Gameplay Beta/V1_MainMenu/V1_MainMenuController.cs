@@ -44,6 +44,11 @@ public class V1_MainMenuController : V1_SceneController
 	public void LoadGame(string fileName)
 	{
 		V1_SaveDataManager.instance.LoadData(fileName);
+		if (V1_SaveDataManager.instance.data == null)
+		{
+			Debug.LogWarning("Save file " + fileName + " not found!");
+			return;
+		}
 
 		switch (V1_SaveDataManager.instance.data.common.gameState)
 		{

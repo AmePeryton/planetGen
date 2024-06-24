@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using System.IO;
 
-// Deals with file related functions, inclusind:
+// Deals with file related functions, including:
 	// Serialization / deserialization
 	// Creating / Deleting files
 	// Finding all relevant files in a directory
@@ -39,10 +39,9 @@ public class V1_FileHandler
 		}
 		else
 		{
-			Debug.LogWarning("[LOAD] File could not be found at " + fullPath);
+			Debug.LogWarning("File could not be found at " + fullPath);
 		}
 
-		//Debug.Log("Data loaded from file " + fullPath);
 		return loadedData;
 	}
 
@@ -70,7 +69,6 @@ public class V1_FileHandler
 		{
 			Debug.LogWarning("Error occured when trying to save data to file: " + fullPath + "\n" + e);
 		}
-		//Debug.Log("Data saved to file " + fullPath);
 	}
 
 	// Delete a file from a given folder (intended to delete game save files)
@@ -89,12 +87,11 @@ public class V1_FileHandler
 		}
 		else
 		{
-			Debug.LogWarning("[DELETE] File could not be found at " + fullPath);
+			Debug.LogWarning("File could not be found at " + fullPath);
 		}
-
-		//Debug.Log("File deleted: " + fullPath);
 	}
 
+	// Find all files in a directory, return full paths of each file
 	public static string[] FindAllFiles(string directory, string extension = "*")
 	{
 		List<string> paths = new List<string>();
@@ -103,7 +100,6 @@ public class V1_FileHandler
 		foreach (FileInfo file in files)
 		{
 			paths.Add(file.FullName);
-			//Debug.Log("FILE: " + file.FullName);
 		}
 		return paths.ToArray();
 	}

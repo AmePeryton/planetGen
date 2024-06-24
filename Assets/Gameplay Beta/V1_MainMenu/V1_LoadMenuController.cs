@@ -47,6 +47,7 @@ public class V1_LoadMenuController : MonoBehaviour
 			newRect.anchoredPosition = new Vector2(20, 300 - rect.sizeDelta.y);
 			newRect.sizeDelta = new Vector2(1240, 240);
 			newListItem.GetComponent<V1_LoadGameListItem>().commonData = V1_FileHandler.Load<V1_FullSaveData>(path).common;
+			// TODO: accomodate invalid files in folder and misnamed save files
 			//newListItem.GetComponent<V1_LoadGameListItem>().Instantiate(data.name, data.dateCreated, data.dateModified);
 			newListItem.GetComponent<V1_LoadGameListItem>().Instantiate();
 			listItems.Add(newListItem);
