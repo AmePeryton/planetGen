@@ -43,7 +43,7 @@ public class V1_SettingsManager : MonoBehaviour
 		}
 		else
 		{
-			Debug.Log("Null Settings Data!");
+			Debug.LogWarning("Null Settings Data!");
 		}
 	}
 }

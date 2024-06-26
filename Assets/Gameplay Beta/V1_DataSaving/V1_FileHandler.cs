@@ -1,13 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using UnityEngine;
 
 // Deals with file related functions, including:
-	// Serialization / deserialization
-	// Creating / Deleting files
-	// Finding all relevant files in a directory
+// Serialization / deserialization
+// Creating / Deleting files
+// Finding all relevant files in a directory
 public class V1_FileHandler
 {
 	// Retrieve and deserialize JSON data to C# class data of type <T>
@@ -89,6 +88,13 @@ public class V1_FileHandler
 		{
 			Debug.LogWarning("File could not be found at " + fullPath);
 		}
+	}
+
+	// Get name of a file (without extension) from its path
+	public static string GetFileName(string path)
+	{
+		// Even though it's one line, it prevents adding extra IO usings to files that dont need them
+		return Path.GetFileNameWithoutExtension(path);
 	}
 
 	// Find all files in a directory, return full paths of each file
