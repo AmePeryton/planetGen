@@ -63,12 +63,12 @@ public class V1_FullSaveData
 	public V1_SaveData_FoodWeb foodWeb;
 	public V1_SaveData_HistoryGraph historyGraph;
 
-	// Game state specific data
-	//public V1_GameStateData gameStateData;
-	public V1_GameStateData_StellarSystem gsd_stellarSystem;
-	public V1_GameStateData_AncestorSelection gsd_ancestorSelection;
-	public V1_GameStateData_CreatureCreator gsd_creatureCreator;
-	public V1_GameStateData_OpenWorld gsd_openWorld;
+	// Game scene specific data
+	//public V1_GameSceneData gameSceneData;
+	public V1_GameSceneData_StellarSystem gsd_stellarSystem;
+	public V1_GameSceneData_AncestorSelection gsd_ancestorSelection;
+	public V1_GameSceneData_CreatureCreator gsd_creatureCreator;
+	public V1_GameSceneData_OpenWorld gsd_openWorld;
 
 	// Default data (out of order game opening)
 	public V1_FullSaveData()
@@ -82,10 +82,10 @@ public class V1_FullSaveData
 		foodWeb = new V1_SaveData_FoodWeb();
 		historyGraph = new V1_SaveData_HistoryGraph();
 
-		gsd_stellarSystem = new V1_GameStateData_StellarSystem();
-		gsd_ancestorSelection = new V1_GameStateData_AncestorSelection();
-		gsd_creatureCreator = new V1_GameStateData_CreatureCreator();
-		gsd_openWorld = new V1_GameStateData_OpenWorld();
+		gsd_stellarSystem = new V1_GameSceneData_StellarSystem();
+		gsd_ancestorSelection = new V1_GameSceneData_AncestorSelection();
+		gsd_creatureCreator = new V1_GameSceneData_CreatureCreator();
+		gsd_openWorld = new V1_GameSceneData_OpenWorld();
 	}
 
 	// Blank data (normal new game)
@@ -100,10 +100,10 @@ public class V1_FullSaveData
 		foodWeb = new V1_SaveData_FoodWeb();
 		historyGraph = new V1_SaveData_HistoryGraph();
 
-		gsd_stellarSystem = new V1_GameStateData_StellarSystem();
-		gsd_ancestorSelection = new V1_GameStateData_AncestorSelection();
-		gsd_creatureCreator = new V1_GameStateData_CreatureCreator();
-		gsd_openWorld = new V1_GameStateData_OpenWorld();
+		gsd_stellarSystem = new V1_GameSceneData_StellarSystem();
+		gsd_ancestorSelection = new V1_GameSceneData_AncestorSelection();
+		gsd_creatureCreator = new V1_GameSceneData_CreatureCreator();
+		gsd_openWorld = new V1_GameSceneData_OpenWorld();
 	}
 }
 
@@ -113,14 +113,14 @@ public class V1_SaveData_Common
 	public string name;
 	public string dateCreated;
 	public string dateModified;
-	public GameState gameState;
+	public GameScene gameScene;
 
 	public V1_SaveData_Common(string name)
 	{
 		this.name = name;
 		dateCreated = DateTime.Now.ToString("MM/dd/yyyy");
 		dateModified = DateTime.Now.ToString("MM/dd/yyyy");
-		gameState = GameState.MainMenu;
+		gameScene = GameScene.MainMenu;
 	}
 }
 
@@ -180,45 +180,20 @@ public class V1_SaveData_HistoryGraph
 	}
 }
 
-// GAME STATE SPECIFIC DATA TYPES
-// NOTE: Move these definitions to their appropriate scene controllers when they are written
+// GAME SCENE SPECIFIC DATA TYPES
 [Serializable]
-public class V1_GameStateData
+public class V1_GameSceneData
 {
-	public V1_GameStateData()
-	{
-	}
-}
-
-[Serializable]
-public class V1_GameStateData_AncestorSelection : V1_GameStateData
-{
-	public V1_GameStateData_AncestorSelection()
-	{
-	}
-}
-
-[Serializable]
-public class V1_GameStateData_CreatureCreator : V1_GameStateData
-{
-	public V1_GameStateData_CreatureCreator()
-	{
-	}
-}
-
-[Serializable]
-public class V1_GameStateData_OpenWorld : V1_GameStateData
-{
-	public V1_GameStateData_OpenWorld()
+	public V1_GameSceneData()
 	{
 	}
 }
 
 // ENUMS
 [Serializable]
-public enum GameState
+public enum GameScene
 {
-	MainMenu = 0,		// Default game state, indicates new game or out of order loading
+	MainMenu = 0,		// Default game scene, indicates new game or out of order loading
 	StellarSystem,		// Game saved while tweaking the stellar system or the planet
 	AncestorSelection,	// Game saved while choosing a last common ancestor
 	CreatureCreator,	// Game saved while tweaking your organism (who up tweaking they organism) or in physical simulaton

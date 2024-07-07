@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d18bdf24ee6ed464fae7b3c1da57f16f, type: 3}
+  m_Name: Fat
+  m_EditorClassIdentifier: 
+  organName: 
+  color: {r: 0.750393, g: 0.774, b: 0.53793, a: 1}
