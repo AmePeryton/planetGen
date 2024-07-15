@@ -12,9 +12,6 @@ EditorBuildSettings:
     path: Assets/Gameplay Beta/V1_GameScenes/V1_StellarSystem/V1_SCENE_StellarSystem.unity
     guid: d9c8ce7cfdcee284cb34a14cfc0b147e
   - enabled: 1
-    path: Assets/Gameplay Beta/V1_Tectonics/V1_SCENE_Tectonics.unity
-    guid: e5f4094be0197bf489786a588d1f5f3c
-  - enabled: 1
     path: Assets/Gameplay Beta/V1_GameScenes/V1_AncestorSelection/V1_SCENE_AncestorSelection.unity
     guid: 8d369dc57580b704ba65ebbe1e1ba5ea
   - enabled: 1

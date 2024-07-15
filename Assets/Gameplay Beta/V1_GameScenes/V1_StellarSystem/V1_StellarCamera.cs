@@ -1,102 +1,51 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-public class V1_StellarCamera : MonoBehaviour
+public class V1_StellarCamera : V1_ThirdPersonCameraController
 {
-	[Header("View Point")]
-	public Vector3 viewPointDefault;	// Default position to point at
-	public Vector3 viewPointTarget;		// Default position to point at
-	public Vector3 viewPointCurrent;	// Current position pointed at
-
-	[Header("View Axis")]
-	public Vector3 viewAxisDefault;	// Default direction of viewpoint offset from camera
-	public Vector3 viewAxisTarget;	// Target direction of viewpoint offset from camera
-	public Vector3 viewAxisCurrent; // Current direction of viewpoint offset from camera
-
-	[Header("Offset Angle")]
-	public Vector3 offsetAngleDefault;
-	public Vector3 offsetAngleTarget;
-	public Vector3 offsetAngleCurrent;
-
-	[Header("Zoom")]
-	public float[] zoomSettings = new float[5];	// closest, farthest, default (real), step (percent), smoothing
-	public float zoomPercent;	// Target percentage of zoom in/out (0 to 1)
-	public float zoomTarget;	// Target distance calculated from the percentage
-	public float zoomCurrent;	// Current distance that is being lerped to the target distance
+	[Header("View Axis OLD")]
+	[Obsolete]
+	public Vector3 viewAxisDefaultOLD;  // Default direction of viewpoint offset from camera
+	[Obsolete]
+	public Vector3 viewAxisTargetOLD;   // Target direction of viewpoint offset from camera
+	[Obsolete]
+	public Vector3 viewAxisCurrentOLD; // Current direction of viewpoint offset from camera
 
 	private void Awake()
 	{
-		viewAxisTarget = viewAxisDefault;
-		viewAxisCurrent = viewAxisTarget;
-
-		viewPointTarget= viewPointDefault;
-		viewPointCurrent = viewPointTarget;
-
-		zoomCurrent = zoomTarget;
-
-		// Convert default distance to percent
-		// Cuberoot( (default - min) / (max - min) )
-		zoomPercent = Mathf.Pow((zoomSettings[2] - zoomSettings[0]) / (zoomSettings[1] - zoomSettings[0]), 1f / 4f);
-
-		transform.position = viewPointCurrent - zoomCurrent * viewAxisTarget;
+		CameraInit();
 	}
 
-	void Update()
+	private void Update()
 	{
 		Move();
 		Rotate();
 		Zoom();
 
-		// Lerp current zoom to target zoom
-		transform.position = viewPointCurrent - zoomCurrent * viewAxisCurrent;
+		// Set gameObject position
+		transform.position = focusPointCurrent + zoomCurrent * trueOffsetAxis;
 
 		// Look at current view point
-		transform.LookAt(viewPointCurrent);
+		transform.eulerAngles = -offsetAngleCurrent;
 	}
 
-	private void Move()
-	{
-		viewPointCurrent = Vector3.Lerp(viewPointTarget, viewPointCurrent, 0.99f);
-	}
-
-	private void Rotate()
+	[Obsolete]
+	private void RotateOLD()
 	{
 		if (Input.GetKey(KeyCode.Mouse1))
 		{
 			// Rotate horizontally
-			viewAxisTarget = Quaternion.AngleAxis(10 * Input.GetAxis("Mouse X"), Vector3.up) * viewAxisTarget;
+			viewAxisTargetOLD = Quaternion.AngleAxis(10 * Input.GetAxis("Mouse X"), Vector3.up) * viewAxisTargetOLD;
 			// Rotate vertically
-			viewAxisTarget = Quaternion.AngleAxis(6 * Input.GetAxis("Mouse Y"), Vector3.Cross(viewAxisTarget, Vector3.up)) * viewAxisTarget;
-			// Prevent rotation from being straight up ordown (gimbal lock)
-			viewAxisTarget.y = Mathf.Clamp(viewAxisTarget.y, -0.95f, 0.95f);
+			viewAxisTargetOLD = Quaternion.AngleAxis(6 * Input.GetAxis("Mouse Y"), Vector3.Cross(viewAxisTargetOLD, Vector3.up)) * viewAxisTargetOLD;
+			// Prevent rotation from being straight up or down (gimbal lock)
+			viewAxisTargetOLD.y = Mathf.Clamp(viewAxisTargetOLD.y, -0.95f, 0.95f);
 			// Normalize view axis
-			viewAxisTarget.Normalize();
+			viewAxisTargetOLD.Normalize();
 		}
 
-		viewAxisCurrent.x = Vector3.Slerp(viewAxisTarget, viewAxisCurrent, 0.98f).normalized.x;
-		viewAxisCurrent.y = Mathf.Lerp(viewAxisTarget.y, viewAxisCurrent.y, 0.98f);
-		viewAxisCurrent.z = Vector3.Slerp(viewAxisTarget, viewAxisCurrent, 0.98f).normalized.z;
+		viewAxisCurrentOLD.x = Vector3.Slerp(viewAxisTargetOLD, viewAxisCurrentOLD, 0.98f).normalized.x;
+		viewAxisCurrentOLD.y = Mathf.Lerp(viewAxisTargetOLD.y, viewAxisCurrentOLD.y, 0.98f);
+		viewAxisCurrentOLD.z = Vector3.Slerp(viewAxisTargetOLD, viewAxisCurrentOLD, 0.98f).normalized.z;
 	}
-
-	// Update zooming variables based on scroll
-	private void Zoom()
-	{
-		// Input mouse scroll and clamp 0-1
-		zoomPercent -= Input.mouseScrollDelta.y * zoomSettings[3];
-		zoomPercent = Mathf.Clamp01(zoomPercent);
-
-		// Calculate real zoom distance based on zoom percentage and zoom settings
-		zoomTarget = ((zoomSettings[1] - zoomSettings[0]) * Mathf.Pow(zoomPercent, 4) + zoomSettings[0]);
-
-		// Lerp current distance to target distance
-		zoomCurrent = Mathf.Lerp(zoomTarget, zoomCurrent, zoomSettings[4]);
-	}
-
 }
-
-// TODO:
-/*	minor lerp view axis
- *	major lerp view distance (zoom)
- *	minor lerp current view point
- */

@@ -1038,24 +1038,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1f1ff30458b7d2499f2580080c18e5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewPointDefault: {x: 0, y: 0, z: 0}
-  viewPointTarget: {x: 0, y: 0, z: 0}
-  viewPointCurrent: {x: 0, y: 0, z: 0}
-  viewAxisDefault: {x: 0, y: -1, z: 1}
-  viewAxisTarget: {x: 0, y: 0, z: 0}
-  viewAxisCurrent: {x: 0, y: 0, z: 0}
+  moveSettings:
+    speed: 0
+    zoomFactor: 0
+    smoothing: 0
+  rotateSettings:
+    speedHorizontal: 6
+    speedVertical: 4
+    smoothing: 0.99
+    verticalLimits: {x: -89, y: 89}
+  zoomSettings:
+    closest: 0.1
+    farthest: 100
+    defaultDistance: 10
+    step: 0.02
+    smoothing: 0.99
+    exponent: 4
+  focusPointDefault: {x: 0, y: 0, z: 0}
+  focusPointTarget: {x: 0, y: 0, z: 0}
+  focusPointCurrent: {x: 0, y: 0, z: 0}
   offsetAngleDefault: {x: 0, y: 0, z: 0}
   offsetAngleTarget: {x: 0, y: 0, z: 0}
   offsetAngleCurrent: {x: 0, y: 0, z: 0}
-  zoomSettings:
-  - 0.01
-  - 100
-  - 10
-  - 0.02
-  - 0.99
   zoomPercent: 0
   zoomTarget: 0
   zoomCurrent: 0
+  viewAxisDefaultOLD: {x: 0, y: 0, z: 1}
+  viewAxisTargetOLD: {x: 0, y: 0, z: 0}
+  viewAxisCurrentOLD: {x: 0, y: 0, z: 0}
 --- !u!224 &561612889850712087
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1089,10 +1099,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
