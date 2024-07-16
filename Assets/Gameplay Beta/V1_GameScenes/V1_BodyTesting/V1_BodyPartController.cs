@@ -6,7 +6,6 @@ using UnityEngine;
 public class V1_BodyPartController : MonoBehaviour
 {
 	public V1_BodyPartData data;
-
 	public bool physicsEnabled;
 
 	[Header("Prefabs")]
@@ -69,6 +68,23 @@ public class V1_BodyPartController : MonoBehaviour
 		}
 	}
 
+	public void UpdatePhysics()
+	{
+		rigidbody.mass = data.mass;
+		rigidbody.useGravity = physicsEnabled;
+		rigidbody.isKinematic = !physicsEnabled;
+	}
+
+	public void UpdateDisplay()
+	{
+		if (!physicsEnabled)
+		{
+			transform.position = data.position;
+			transform.eulerAngles = data.rotation;
+		}
+		transform.localScale = data.scale;
+	}
+
 	public void SetPhysics(bool p)
 	{
 		physicsEnabled = p;
@@ -91,27 +107,21 @@ public class V1_BodyPartController : MonoBehaviour
 			Mathf.Clamp(scale.z, 0, float.PositiveInfinity));
 	}
 
+	public void AddBodyPart()
+	{
+		AddJoint();
+	}
+
+	public void AddJoint()
+	{
+		
+	}
+
 	public void DestroyBodyPart()
 	{
 
 	}
 
-	public void UpdatePhysics()
-	{
-		rigidbody.mass = data.mass;
-		rigidbody.useGravity = physicsEnabled;
-		rigidbody.isKinematic = !physicsEnabled;
-	}
-
-	public void UpdateDisplay()
-	{
-		if (!physicsEnabled)
-		{
-			transform.position = data.position;
-			transform.eulerAngles = data.rotation;
-		}
-		transform.localScale = data.scale;
-	}
 }
 
 public enum BodyPartShape

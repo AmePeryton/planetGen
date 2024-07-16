@@ -4,10 +4,16 @@ using UnityEngine;
 
 public class V1_Body : MonoBehaviour
 {
-	public HashSet<V1_BodyPartController> bodyParts;
+	public V1_BodyPartData data;
+	public V1_BodyPartController selectedPart;
 
 	[Header("Prefabs")]
 	public GameObject bodyPartPrefab;
+	
+	private void Awake()
+	{
+
+	}
 
 	void Start()
 	{
@@ -18,9 +24,15 @@ public class V1_Body : MonoBehaviour
 	{
 		
 	}
+}
 
-	public void AddBodyPart()
+public class V1_BodyPartData
+{
+	public V1_BodyPartData coreBodyPart;	// The root of the body part tree, connected by joint
+	//public HashSet<V1_BodyPartController> bodyParts;
+
+	public V1_BodyPartData()
 	{
-		bodyParts.Add(Instantiate(bodyPartPrefab).GetComponent<V1_BodyPartController>());
+		coreBodyPart = null;
 	}
 }
