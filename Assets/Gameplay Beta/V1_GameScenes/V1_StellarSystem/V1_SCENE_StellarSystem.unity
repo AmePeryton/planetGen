@@ -1039,33 +1039,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSettings:
+    defaultFocusPoint: {x: 0, y: 0, z: 0}
     speed: 0
     zoomFactor: 0
     smoothing: 0
   rotateSettings:
+    defaultRotation: {x: 0, y: 0, z: 0}
     speedHorizontal: 6
     speedVertical: 4
     smoothing: 0.99
     verticalLimits: {x: -89, y: 89}
   zoomSettings:
+    defaultDistance: 10
     closest: 0.1
     farthest: 100
-    defaultDistance: 10
     step: 0.02
     smoothing: 0.99
     exponent: 4
-  focusPointDefault: {x: 0, y: 0, z: 0}
   focusPointTarget: {x: 0, y: 0, z: 0}
   focusPointCurrent: {x: 0, y: 0, z: 0}
-  offsetAngleDefault: {x: 0, y: 0, z: 0}
   offsetAngleTarget: {x: 0, y: 0, z: 0}
   offsetAngleCurrent: {x: 0, y: 0, z: 0}
   zoomPercent: 0
   zoomTarget: 0
   zoomCurrent: 0
-  viewAxisDefaultOLD: {x: 0, y: 0, z: 1}
-  viewAxisTargetOLD: {x: 0, y: 0, z: 0}
-  viewAxisCurrentOLD: {x: 0, y: 0, z: 0}
 --- !u!224 &561612889850712087
 RectTransform:
   m_ObjectHideFlags: 0

@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,11 +6,14 @@ public class V1_BodyPartController : MonoBehaviour
 {
 	public V1_BodyPartData data;
 	public bool physicsEnabled;
+	public List<V1_JointController> jointControllers;
 
 	[Header("Prefabs")]
 	public Mesh cubeMesh;
 	public Mesh sphereMesh;
 	public Mesh cylinderMesh;
+	public GameObject bodyPartPrefab;
+	public GameObject jointPrefab;
 
 	private MeshFilter meshFilter;
 	private MeshRenderer meshRenderer;
@@ -20,12 +22,12 @@ public class V1_BodyPartController : MonoBehaviour
 
 	private void Awake()
 	{
-		BodyPartInit();
+
 	}
 
 	void Start()
 	{
-		
+		BodyPartInit();
 	}
 
 	void Update()
@@ -36,6 +38,8 @@ public class V1_BodyPartController : MonoBehaviour
 
 	public void BodyPartInit()
 	{
+		name = "Body Part " + V1_BodyController.partCounter++;
+
 		meshFilter = GetComponent<MeshFilter>();
 		meshRenderer = GetComponent<MeshRenderer>();
 		collider = GetComponent<Collider>();
@@ -65,6 +69,11 @@ public class V1_BodyPartController : MonoBehaviour
 				break;
 			default:
 				break;
+		}
+
+		foreach (V1_JointData joint in data.joints)
+		{
+			AddBodyPart(joint);
 		}
 	}
 
@@ -107,19 +116,60 @@ public class V1_BodyPartController : MonoBehaviour
 			Mathf.Clamp(scale.z, 0, float.PositiveInfinity));
 	}
 
-	public void AddBodyPart()
+	public void AddNewBodyPart()
 	{
-		AddJoint();
+		// Instantiate new joint and set new data
+		V1_JointController newJoint = Instantiate(jointPrefab).GetComponent<V1_JointController>();
+		newJoint.data = new V1_JointData();
+
+		// Instantiate new body part and set new data
+		V1_BodyPartController newBodyPart = Instantiate(bodyPartPrefab).GetComponent<V1_BodyPartController>();
+		newBodyPart.data = new V1_BodyPartData();
+		newJoint.data.jointedPart = newBodyPart.data;
+
+		// Update joint controller
+		newJoint.parentController = this;
+		newJoint.childController = newBodyPart;
+
+		// Update joint controllers list
+		jointControllers.Add(newJoint);
+
+		// Add new joint to this body part
+		data.joints.Add(newJoint.data);
+
+		// Joint controller adds component to parent, and sets attached body as the child
 	}
 
-	public void AddJoint()
+	public void AddBodyPart(V1_JointData joint)
 	{
-		
+		// Instantiate joint and set data
+		V1_JointController newJoint = Instantiate(jointPrefab).GetComponent<V1_JointController>();
+		newJoint.data = joint;
+
+		// Instantiate body part and set data
+		V1_BodyPartController newBodyPart = Instantiate(bodyPartPrefab).GetComponent<V1_BodyPartController>();
+		newBodyPart.data = joint.jointedPart;
+
+		// Update joint controller
+		newJoint.parentController = this;
+		newJoint.childController = newBodyPart;
+
+		// Update joint controllers list
+		jointControllers.Add(newJoint);
+
+		// Joint controller adds component to parent, and sets attached body as the child
 	}
 
 	public void DestroyBodyPart()
 	{
+		foreach (V1_JointController joint in jointControllers)
+		{
+			joint.childController.DestroyBodyPart();
+			Destroy(joint.gameObject);
+		}
 
+		V1_BodyController.partCounter = 0;
+		Destroy(gameObject);
 	}
 
 }
@@ -140,6 +190,16 @@ public class V1_BodyPartData
 	public Vector3 scale;
 	public float mass;
 	public float volume;
-
 	public List<V1_JointData> joints;
+
+	public V1_BodyPartData()
+	{
+		shape = BodyPartShape.Cube;
+		position = Vector3.zero;
+		rotation = Vector3.zero;
+		scale = Vector3.one;
+		mass = 1.0f;
+		volume = 1.0f;
+		joints = new List<V1_JointData>();
+	}
 }

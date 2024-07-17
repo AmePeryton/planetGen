@@ -58,6 +58,8 @@ MonoBehaviour:
   cubeMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   sphereMesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
   cylinderMesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+  bodyPartPrefab: {fileID: 8311020888318205659}
+  jointPrefab: {fileID: 8758891054646381741, guid: 9b0f00d9be322aa4caa26af81152f7b7, type: 3}
 --- !u!33 &8311020888318205639
 MeshFilter:
   m_ObjectHideFlags: 0

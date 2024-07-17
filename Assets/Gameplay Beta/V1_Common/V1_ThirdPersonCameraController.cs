@@ -9,12 +9,10 @@ public class V1_ThirdPersonCameraController : MonoBehaviour
 	public ZoomSettings zoomSettings;
 
 	[Header("Focus Point")]
-	public Vector3 focusPointDefault;	// Default position to point at
 	public Vector3 focusPointTarget;	// Default position to point at
 	public Vector3 focusPointCurrent;	// Current position pointed at
 
 	[Header("Offset Angle")]
-	public Vector3 offsetAngleDefault;	// Default angle from target to camera
 	public Vector3 offsetAngleTarget;	// Target angle from target to camera
 	public Vector3 offsetAngleCurrent;	// Current angle from target to camera
 	protected Vector3 trueOffsetAxis;
@@ -31,9 +29,29 @@ public class V1_ThirdPersonCameraController : MonoBehaviour
 
 	private void Update()
 	{
+		StandardUpdate();
+	}
+
+	public void CameraInit()
+	{
+		focusPointTarget = moveSettings.defaultFocusPoint;
+		focusPointCurrent = focusPointTarget;
+
+		offsetAngleTarget = rotateSettings.defaultRotation;
+		offsetAngleCurrent = offsetAngleTarget;
+
+		SetZoomDistance(zoomSettings.defaultDistance);
+		zoomCurrent = zoomTarget;
+
+		transform.position = focusPointCurrent + zoomCurrent * trueOffsetAxis;
+	}
+
+	protected void StandardUpdate()
+	{
 		Move();
 		Rotate();
 		Zoom();
+		ResetCamera();
 
 		// Set gameObject position
 		transform.position = focusPointCurrent + zoomCurrent * trueOffsetAxis;
@@ -42,30 +60,12 @@ public class V1_ThirdPersonCameraController : MonoBehaviour
 		transform.eulerAngles = -offsetAngleCurrent;
 	}
 
-	public void CameraInit()
-	{
-		offsetAngleTarget = offsetAngleDefault;
-		offsetAngleCurrent = offsetAngleTarget;
-
-		focusPointTarget = focusPointDefault;
-		focusPointCurrent = focusPointTarget;
-
-		zoomCurrent = zoomTarget;
-
-		// Convert default distance to percent: n-root( (default - min) / (max - min) )
-		zoomPercent = Mathf.Pow((zoomSettings.defaultDistance - zoomSettings.closest) / (zoomSettings.farthest - zoomSettings.closest), 1f / zoomSettings.exponent);
-
-		transform.position = focusPointCurrent + zoomCurrent * trueOffsetAxis;
-	}
-
-
 	protected void Move()
 	{
 		if (Input.GetKey(KeyCode.Mouse2))
 		{
-			// TODO: make better settings
-			focusPointTarget -= moveSettings.speed * moveSettings.zoomFactor * zoomCurrent * Input.GetAxis("Mouse Y") * transform.up;
-			focusPointTarget -= moveSettings.speed * moveSettings.zoomFactor * zoomCurrent * Input.GetAxis("Mouse X") * transform.right;
+			focusPointTarget -= (moveSettings.zoomFactor * zoomCurrent + moveSettings.speed) * Input.GetAxis("Mouse Y") * transform.up;
+			focusPointTarget -= (moveSettings.zoomFactor * zoomCurrent + moveSettings.speed) * Input.GetAxis("Mouse X") * transform.right;
 		}
 
 		focusPointCurrent = Vector3.Lerp(focusPointTarget, focusPointCurrent, moveSettings.smoothing);
@@ -121,10 +121,27 @@ public class V1_ThirdPersonCameraController : MonoBehaviour
 		zoomPercent = Mathf.Clamp01(zoomPercent);
 
 		// Calculate real zoom distance based on zoom percentage and zoom settings
-		zoomTarget = ((zoomSettings.farthest - zoomSettings.closest) * Mathf.Pow(zoomPercent, zoomSettings.exponent) + zoomSettings.closest);
+		zoomTarget = (zoomSettings.farthest - zoomSettings.closest) * Mathf.Pow(zoomPercent, zoomSettings.exponent) + zoomSettings.closest;
 
 		// Lerp current distance to target distance
 		zoomCurrent = Mathf.Lerp(zoomTarget, zoomCurrent, zoomSettings.smoothing);
+	}
+
+	public void SetZoomDistance(float distance)
+	{
+		float safeDistance = Mathf.Clamp(distance, zoomSettings.closest, zoomSettings.farthest);
+		zoomPercent = Mathf.Pow((safeDistance - zoomSettings.closest) / (zoomSettings.farthest - zoomSettings.closest), 1f / zoomSettings.exponent);
+		zoomTarget = (zoomSettings.farthest - zoomSettings.closest) * Mathf.Pow(zoomPercent, zoomSettings.exponent) + zoomSettings.closest;
+	}
+
+	protected void ResetCamera()
+	{
+		if (Input.GetKey(KeyCode.Space))
+		{
+			focusPointTarget = moveSettings.defaultFocusPoint;
+			offsetAngleTarget = rotateSettings.defaultRotation;
+			SetZoomDistance(zoomSettings.defaultDistance);
+		}
 	}
 
 	public float PositiveMod(float dividend, float divisor)
@@ -136,12 +153,14 @@ public class V1_ThirdPersonCameraController : MonoBehaviour
 [Serializable]
 public struct MoveSettings
 {
-	public float speed;		// The speed multiplier of the camera
-	public float zoomFactor;	// The amount that zoom plays in movement speed
+	public Vector3 defaultFocusPoint;
+	public float speed;		// The constant component of the camera speed (speed = zoomfactor * zoomCurrent + speed)
+	public float zoomFactor;	// The linear component of the camera speed based on distance from the focus point
 	public float smoothing;	// Value used to Lerp positions, 0 for no lerping, up to 1 for smoother zooming
 
-	public MoveSettings(float speed, float zoomFactor, float smoothing)
+	public MoveSettings(Vector3 defaultFocusPoint, float speed, float zoomFactor, float smoothing)
 	{
+		this.defaultFocusPoint = defaultFocusPoint;
 		this.speed = speed;
 		this.zoomFactor = zoomFactor;
 		this.smoothing = smoothing;
@@ -151,13 +170,15 @@ public struct MoveSettings
 [Serializable]
 public struct RotateSettings
 {
+	public Vector3 defaultRotation;
 	public float speedHorizontal;	// Speed of horizontal rotation (about y axis)
 	public float speedVertical;		// Speed of vertical rotation (about x axis)
 	public float smoothing;			// Value used to Lerp positions, 0 for no lerping, up to 1 for smoother rotating
 	public Vector2 verticalLimits;	// Min and max vertical angles (in degrees)
 
-	public RotateSettings(float speedHorizontal, float speedVertical, float smoothing, Vector2 verticalLimits)
+	public RotateSettings(Vector3 defaultRotation, float speedHorizontal, float speedVertical, float smoothing, Vector2 verticalLimits)
 	{
+		this.defaultRotation = defaultRotation;
 		this.speedHorizontal = speedHorizontal;
 		this.speedVertical = speedVertical;
 		this.smoothing = smoothing;
@@ -168,9 +189,9 @@ public struct RotateSettings
 [Serializable]
 public struct ZoomSettings
 {
+	public float defaultDistance;	// The starting distance the camera will be from the focus point
 	public float closest;	// Smallest distance the camera can get from the focus point
 	public float farthest;	// Greatest distance the camera can get from the focus point
-	public float defaultDistance;	// The starting distance the camera will be from the focus point
 	public float step;		// Speed of the camera zoom in percentage change per scroll delta
 	public float smoothing;	// Value used to Lerp positions, 0 for no lerping, up to 1 for smoother zooming
 	public float exponent;	// Exponent to define the zoom curve, higher values zoom faster at larger distances, 1 is linear
@@ -184,4 +205,13 @@ public struct ZoomSettings
 		this.smoothing = smoothing;
 		this.exponent = exponent;
 	}
+
+	/* Practical Limits:
+		* -inf < defaultDistance < inf
+		* closest >= 0
+		* closest < farthest
+		* -inf < step < inf, step < 0 for reverse scrolling, step = 0 to disable scrolling
+		* 0 <= smoothing < 1, best values around 0.95 - 0.99
+		* 0 < exponent < inf, recommended to stay between 1 (linear) and ~10 (highly curved, much faster farther away)
+	 */
 }

@@ -4,29 +4,22 @@ using UnityEngine;
 public class V1_StellarCamera : V1_ThirdPersonCameraController
 {
 	[Header("View Axis OLD")]
-	[Obsolete]
-	public Vector3 viewAxisDefaultOLD;  // Default direction of viewpoint offset from camera
-	[Obsolete]
-	public Vector3 viewAxisTargetOLD;   // Target direction of viewpoint offset from camera
-	[Obsolete]
-	public Vector3 viewAxisCurrentOLD; // Current direction of viewpoint offset from camera
+	[Obsolete] [NonSerialized]
+	public Vector3 viewAxisDefaultOLD;	// Default direction of viewpoint offset from camera
+	[Obsolete] [NonSerialized]
+	public Vector3 viewAxisTargetOLD;	// Target direction of viewpoint offset from camera
+	[Obsolete] [NonSerialized]
+	public Vector3 viewAxisCurrentOLD;	// Current direction of viewpoint offset from camera
 
 	private void Awake()
 	{
 		CameraInit();
+		zoomCurrent = 0;	// Cinematic zoom out on load
 	}
 
 	private void Update()
 	{
-		Move();
-		Rotate();
-		Zoom();
-
-		// Set gameObject position
-		transform.position = focusPointCurrent + zoomCurrent * trueOffsetAxis;
-
-		// Look at current view point
-		transform.eulerAngles = -offsetAngleCurrent;
+		StandardUpdate();
 	}
 
 	[Obsolete]

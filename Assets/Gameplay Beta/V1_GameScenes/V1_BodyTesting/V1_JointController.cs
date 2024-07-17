@@ -1,35 +1,23 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class V1_JointController : MonoBehaviour
 {
 	public V1_JointData data;
-	public Rigidbody rb;
+	public V1_BodyPartController parentController;
+	public V1_BodyPartController childController;
+
 	public ConfigurableJoint jointComponent;
 
-	private void Awake()
+	void Start()
 	{
-
+		JointInit();
 	}
 
 	public void JointInit()
 	{
-
+		name = "Joint " + V1_BodyController.partCounter;
 	}
-
-	void Start()
-	{
-		
-	}
-
-	void Update()
-	{
-		
-	}
-
-
 }
 
 public enum JointType
@@ -45,12 +33,12 @@ public enum JointType
 public class V1_JointData
 {
 	public JointType jointType;	// Type of joint
-	public Vector3 position;	// Position of the anchor in the parent bodypart's local space
+	public Vector3 position;	// Position of the anchor in the parent body part's local space
 	public Vector3 primaryAxis;	// Axis of the joint component
 	public Vector3 secondaryAxis;	// Secondary Axis of the joint component
-	public V1_BodyPartData jointedPart;	// Paired bodypart
+	public V1_BodyPartData jointedPart;	// Paired body part
 
-	public V1_JointData(JointType j = JointType.Fixed, Vector3 p = new Vector3(), V1_BodyPartData a, = null)
+	public V1_JointData(JointType j = JointType.Fixed, Vector3 p = new Vector3(), V1_BodyPartData a = null)
 	{
 		jointType = j;
 		position = p;
