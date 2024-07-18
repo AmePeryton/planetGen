@@ -15,7 +15,7 @@ public class V1_JointController : MonoBehaviour
 		gameObject.SetActive(false);
 	}
 
-	public void JointInit(V1_JointData initData, V1_BodyPartController parent, V1_BodyPartController child)
+	public void JointInit(V1_JointData initData, V1_BodyPartController parent, V1_BodyPartController child, int jointNum)
 	{
 		// Set data as reference to passed initData
 		data = initData;
@@ -23,7 +23,7 @@ public class V1_JointController : MonoBehaviour
 		childController = child;
 
 		// Set name
-		name = "Joint " + V1_BodyController.partCounter;
+		name = "Joint " + jointNum;
 
 		// TODO: set up joint component
 
