@@ -31,13 +31,16 @@ public class V1_BodyController : MonoBehaviour
 
 		// Spawn new core
 		coreController = Instantiate(bodyPartPrefab).GetComponent<V1_BodyPartController>();
+		//coreController.Awake();	// Awake seems to run as intended here anyway
+		coreController.BodyPartInit(new V1_BodyPartData());
 		data.core = coreController.data;
 		selectedPart = coreController;
 	}
 
+	[ContextMenu("Add Part to Selected")]
 	public void AddPartToSelected()
 	{
-		selectedPart.AddNewBodyPart();
+		selectedPart.CreateNewBodyPart();
 	}
 
 	[ContextMenu("Load Data")]
@@ -55,9 +58,9 @@ public class V1_BodyController : MonoBehaviour
 
 		// Spawn core as defined in the save data
 		coreController = Instantiate(bodyPartPrefab).GetComponent<V1_BodyPartController>();
-		coreController.data = data.core;
+		//coreController.Awake();	// Awake seems to run as intended here anyway
+		coreController.BodyPartInit(data.core);
 		selectedPart = coreController;
-		// body parts should recursively spawn their jointed bodyparts on init
 	}
 
 	[ContextMenu("Save Data")]

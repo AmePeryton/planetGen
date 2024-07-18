@@ -9,15 +9,27 @@ public class V1_JointController : MonoBehaviour
 
 	public ConfigurableJoint jointComponent;
 
-	void Start()
+	private void Awake()
 	{
-		JointInit();
+		// Disable this gameobject until it is initialized by the creating script
+		gameObject.SetActive(false);
 	}
 
-	public void JointInit()
+	public void JointInit(V1_JointData initData, V1_BodyPartController parent, V1_BodyPartController child)
 	{
+		// Set data as reference to passed initData
+		data = initData;
+		parentController = parent;
+		childController = child;
+
+		// Set name
 		name = "Joint " + V1_BodyController.partCounter;
-	}
+
+		// TODO: set up joint component
+
+		// Re-enable self
+		gameObject.SetActive(true);
+	}	
 }
 
 public enum JointType

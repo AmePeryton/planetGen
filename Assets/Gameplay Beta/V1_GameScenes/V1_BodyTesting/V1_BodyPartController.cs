@@ -22,12 +22,14 @@ public class V1_BodyPartController : MonoBehaviour
 
 	private void Awake()
 	{
+		// Set components
+		meshFilter = GetComponent<MeshFilter>();
+		meshRenderer = GetComponent<MeshRenderer>();
+		collider = GetComponent<Collider>();
+		rigidbody = GetComponent<Rigidbody>();
 
-	}
-
-	void Start()
-	{
-		BodyPartInit();
+		// Disable this gameobject until it is initialized by the creating script
+		//gameObject.SetActive(false);	// since awake calls twice sometimes, this won't work right
 	}
 
 	void Update()
@@ -36,45 +38,25 @@ public class V1_BodyPartController : MonoBehaviour
 		UpdateDisplay();
 	}
 
-	public void BodyPartInit()
+	public void BodyPartInit(V1_BodyPartData initData)
 	{
-		name = "Body Part " + V1_BodyController.partCounter++;
+		// Set data as reference to passed initData
+		data = initData;
 
-		meshFilter = GetComponent<MeshFilter>();
-		meshRenderer = GetComponent<MeshRenderer>();
-		collider = GetComponent<Collider>();
-		rigidbody = GetComponent<Rigidbody>();
+		// Set name
+		name = "Body Part " + ++V1_BodyController.partCounter;
 
-		// Primitive colliders can't change shape, so destroy old one and make new one
-		// Mesh colliders can change shape, but with performance cost (and might not have same functions)
-		if (collider != null)
-		{
-			Destroy(collider);
-		}
-		collider = null;
+		// Set shape related values
+		SetShape(initData.shape);
 
-		switch (data.shape)
-		{
-			case BodyPartShape.Cube:
-				meshFilter.mesh = cubeMesh;
-				collider = gameObject.AddComponent<BoxCollider>();
-				break;
-			case BodyPartShape.Sphere:
-				meshFilter.mesh = sphereMesh;
-				collider = gameObject.AddComponent<SphereCollider>();
-				break;
-			case BodyPartShape.Cylinder:
-				meshFilter.mesh = cylinderMesh;
-				collider = gameObject.AddComponent<CapsuleCollider>();
-				break;
-			default:
-				break;
-		}
-
+		// Add joint controllers and body part controllers
 		foreach (V1_JointData joint in data.joints)
 		{
-			AddBodyPart(joint);
+			AddJointedBodyPart(joint);
 		}
+
+		// Re-enable self
+		gameObject.SetActive(true);
 	}
 
 	public void UpdatePhysics()
@@ -116,48 +98,70 @@ public class V1_BodyPartController : MonoBehaviour
 			Mathf.Clamp(scale.z, 0, float.PositiveInfinity));
 	}
 
-	public void AddNewBodyPart()
+	public void SetShape(BodyPartShape newShape)
 	{
-		// Instantiate new joint and set new data
-		V1_JointController newJoint = Instantiate(jointPrefab).GetComponent<V1_JointController>();
-		newJoint.data = new V1_JointData();
+		data.shape = newShape;
 
-		// Instantiate new body part and set new data
-		V1_BodyPartController newBodyPart = Instantiate(bodyPartPrefab).GetComponent<V1_BodyPartController>();
-		newBodyPart.data = new V1_BodyPartData();
-		newJoint.data.jointedPart = newBodyPart.data;
+		// Primitive colliders can't change shape, so destroy old one and make new one
+		// Mesh colliders can change shape, but with performance cost (and might not have same functions)
+		if (collider != null)
+		{
+			Destroy(collider);
+		}
+		collider = null;
 
-		// Update joint controller
-		newJoint.parentController = this;
-		newJoint.childController = newBodyPart;
-
-		// Update joint controllers list
-		jointControllers.Add(newJoint);
-
-		// Add new joint to this body part
-		data.joints.Add(newJoint.data);
-
-		// Joint controller adds component to parent, and sets attached body as the child
+		switch (newShape)
+		{
+			case BodyPartShape.Cube:
+				meshFilter.mesh = cubeMesh;
+				collider = gameObject.AddComponent<BoxCollider>();
+				break;
+			case BodyPartShape.Sphere:
+				meshFilter.mesh = sphereMesh;
+				collider = gameObject.AddComponent<SphereCollider>();
+				break;
+			case BodyPartShape.Cylinder:
+				meshFilter.mesh = cylinderMesh;
+				collider = gameObject.AddComponent<CapsuleCollider>();
+				break;
+			default:
+				Debug.LogWarning("SetShape defaulted");
+				meshFilter.mesh = null;
+				collider = null;
+				break;
+		}
 	}
 
-	public void AddBodyPart(V1_JointData joint)
+	public void CreateNewBodyPart()
 	{
-		// Instantiate joint and set data
-		V1_JointController newJoint = Instantiate(jointPrefab).GetComponent<V1_JointController>();
-		newJoint.data = joint;
+		// Initilize data
+		V1_JointData newJointData = new V1_JointData
+		{
+			jointedPart = new V1_BodyPartData()
+		};
 
+		// Add new joint to this body part
+		data.joints.Add(newJointData);
+
+		// Set up controllers for new part and joint
+		AddJointedBodyPart(newJointData);
+	}
+
+	public void AddJointedBodyPart(V1_JointData joint)
+	{
 		// Instantiate body part and set data
 		V1_BodyPartController newBodyPart = Instantiate(bodyPartPrefab).GetComponent<V1_BodyPartController>();
-		newBodyPart.data = joint.jointedPart;
+		newBodyPart.Awake();	// Awake not called automatically when instantiating script of same type
+		newBodyPart.BodyPartInit(joint.jointedPart);
 
-		// Update joint controller
-		newJoint.parentController = this;
-		newJoint.childController = newBodyPart;
+		// Instantiate joint and set data
+		V1_JointController newJoint = Instantiate(jointPrefab).GetComponent<V1_JointController>();
+		newJoint.transform.parent = transform;	// BUG: duplicate joints get added to all parts if...
+		//the original joint's transform is parented to something
+		newJoint.JointInit(joint, this, newBodyPart);
 
 		// Update joint controllers list
 		jointControllers.Add(newJoint);
-
-		// Joint controller adds component to parent, and sets attached body as the child
 	}
 
 	public void DestroyBodyPart()
@@ -168,7 +172,8 @@ public class V1_BodyPartController : MonoBehaviour
 			Destroy(joint.gameObject);
 		}
 
-		V1_BodyController.partCounter = 0;
+		V1_BodyController.partCounter--;
+		Debug.Log(V1_BodyController.partCounter);
 		Destroy(gameObject);
 	}
 
