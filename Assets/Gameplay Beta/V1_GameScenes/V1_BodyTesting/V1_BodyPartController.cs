@@ -152,13 +152,13 @@ public class V1_BodyPartController : MonoBehaviour
 		// Instantiate body part and set data
 		V1_BodyPartController newBodyPart = Instantiate(bodyPartPrefab).GetComponent<V1_BodyPartController>();
 		newBodyPart.Awake();	// Awake not called automatically when instantiating script of same type
-		newBodyPart.BodyPartInit(joint.jointedPart, ++V1_BodyController.numObjects);
+		newBodyPart.BodyPartInit(joint.jointedPart, ++V1_BodyController.partCounter);
 
 		// Instantiate joint and set data
 		V1_JointController newJoint = Instantiate(jointPrefab).GetComponent<V1_JointController>();
-		newJoint.transform.parent = transform;	// BUG: duplicate joints get added to all parts if...
+		//newJoint.transform.parent = transform;	// BUG: duplicate joints get added to all parts if...
 		//the original joint's transform is parented to something
-		newJoint.JointInit(joint, this, newBodyPart, V1_BodyController.numObjects);
+		newJoint.JointInit(joint, this, newBodyPart, V1_BodyController.partCounter);
 
 		// Update joint controllers list
 		jointControllers.Add(newJoint);

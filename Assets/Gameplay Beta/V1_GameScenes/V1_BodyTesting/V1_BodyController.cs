@@ -32,7 +32,7 @@ public class V1_BodyController : MonoBehaviour
 		// Spawn new core
 		coreController = Instantiate(bodyPartPrefab).GetComponent<V1_BodyPartController>();
 		//coreController.Awake();	// Awake seems to run as intended here anyway
-		coreController.BodyPartInit(new V1_BodyPartData(), numObjects);
+		coreController.BodyPartInit(new V1_BodyPartData(), partCounter);
 		data.core = coreController.data;
 		selectedPart = coreController;
 	}
@@ -59,7 +59,7 @@ public class V1_BodyController : MonoBehaviour
 		// Spawn core as defined in the save data
 		coreController = Instantiate(bodyPartPrefab).GetComponent<V1_BodyPartController>();
 		//coreController.Awake();	// Awake seems to run as intended here anyway
-		coreController.BodyPartInit(data.core, numObjects);
+		coreController.BodyPartInit(data.core, partCounter);
 		selectedPart = coreController;
 	}
 

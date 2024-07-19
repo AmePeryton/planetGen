@@ -110,7 +110,7 @@ public class V1_ThirdPersonCameraController : MonoBehaviour
 			new Vector4());
 
 		// Combine rotations in reverse order with the backwards vector
-		trueOffsetAxis = rotZ * rotY * rotX * referenceVector;
+		trueOffsetAxis = rotY * rotX * rotZ * referenceVector;
 	}
 
 	// Update zooming variables based on scroll
